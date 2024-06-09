@@ -1,0 +1,71 @@
+﻿@model GanaderiaLasDelicias.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="card">
+    <div class="card-header">
+        <h3>Registrar Empleado</h3>
+    </div>
+<hr />
+
+    <div class="row" style="margin-left: 1%;">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NatId" class="control-label"></label>
+                <input asp-for="NatId" class="form-control" />
+                <span asp-validation-for="NatId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle" class="control-label"></label>
+                <input asp-for="JobTitle" class="form-control" />
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BaseSalary" class="control-label"></label>
+                <input asp-for="BaseSalary" class="form-control" />
+                <span asp-validation-for="BaseSalary" class="text-danger"></span>
+            </div>
+                <div class="form-group">
+                    <label asp-for="ScheduleId" class="control-label"></label>
+                    <select asp-for="ScheduleId" class="form-control">
+                        <option value="1">Diurno</option>
+                        <option value="2">Nocturno</option>
+                    </select>
+                    <span asp-validation-for="ScheduleId" class="text-danger"></span>
+                </div>
+            <div class="form-group">
+                <label asp-for="AspNetUserId" class="control-label"></label>
+                <select asp-for="AspNetUserId" class ="form-control" asp-items="ViewBag.AspNetUserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" value="Activo" readonly/>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Registrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+
+@* @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

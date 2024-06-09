@@ -1,0 +1,76 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Registrar Empleado</a>
+</p>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Empleados</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+            <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NatId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NatId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+                <td>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-success">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info">Detalles</a>
+                        <a asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger">Desactivar</a>
+                    </div>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+    </div>
+</div>
