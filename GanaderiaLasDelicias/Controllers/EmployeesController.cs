@@ -115,7 +115,7 @@ namespace GanaderiaLasDelicias.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", employee.AspNetUserId);
+            ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Email", employee.AspNetUserId);
             return View(employee);
         }
 
