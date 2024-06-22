@@ -34,6 +34,9 @@ namespace GanaderiaLasDelicias.Models
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Treatment> Treatments { get; set; } = null!;
 
+        public virtual DbSet<Schedule> Schedules { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -324,8 +327,24 @@ namespace GanaderiaLasDelicias.Models
                 entity.Property(e => e.MedName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Schedule>(entity =>
+            {
+                entity.ToTable("Schedule");
+
+                entity.Property(e => e.ScheduleId).HasColumnName("ScheduleID");
+
+                entity.Property(e => e.Description).HasMaxLength(255);
+
+                entity.Property(e => e.WorkDays).HasMaxLength(50);
+
+                entity.Property(e => e.WorkHours).HasMaxLength(50);
+
+                entity.Property(e => e.OffDays).HasMaxLength(50);
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

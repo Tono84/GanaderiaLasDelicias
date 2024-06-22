@@ -1,0 +1,44 @@
+﻿@model GanaderiaLasDelicias.Models.Schedule
+
+@{
+    ViewData["Title"] = "Crear Horario";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Crear Nuevo Horario</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="WorkDays" class="control-label"></label>
+                <input asp-for="WorkDays" class="form-control" />
+                <span asp-validation-for="WorkDays" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="OffDays" class="control-label"></label>
+                <input asp-for="OffDays" class="form-control" />
+                <span asp-validation-for="OffDays" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WorkHours" class="control-label"></label>
+                <input asp-for="WorkHours" class="form-control" />
+                <span asp-validation-for="WorkHours" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
