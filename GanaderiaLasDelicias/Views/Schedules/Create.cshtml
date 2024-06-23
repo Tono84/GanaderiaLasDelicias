@@ -1,44 +1,65 @@
 ﻿@model GanaderiaLasDelicias.Models.Schedule
 
 @{
-    ViewData["Title"] = "Crear Horario";
+    ViewData["Title"] = "Crear";
 }
+
+<h1>Crear Horario</h1>
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Crear Nuevo Horario</h3>
+        <h3>Crear Horario</h3>
     </div>
-    <div class="card-body">
-        <form asp-action="Create" method="post">
-            <div class="form-group">
-                <label asp-for="WorkDays" class="control-label"></label>
-                <input asp-for="WorkDays" class="form-control" />
-                <span asp-validation-for="WorkDays" class="text-danger"></span>
-            </div>
+    <hr />
 
-            <div class="form-group">
-                <label asp-for="OffDays" class="control-label"></label>
-                <input asp-for="OffDays" class="form-control" />
-                <span asp-validation-for="OffDays" class="text-danger"></span>
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Nombre:</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShiftType" class="control-label">Tipo de Turno:</label>
+                    <input asp-for="ShiftType" class="form-control" />
+                    <span asp-validation-for="ShiftType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WorkDays" class="control-label">Días Laborales:</label>
+                    <input asp-for="WorkDays" class="form-control" />
+                    <span asp-validation-for="WorkDays" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OffDays" class="control-label">Días de Descanso:</label>
+                    <input asp-for="OffDays" class="form-control" />
+                    <span asp-validation-for="OffDays" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WorkHours" class="control-label">Horas de Trabajo:</label>
+                    <input asp-for="WorkHours" class="form-control" />
+                    <span asp-validation-for="WorkHours" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> Activo
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label asp-for="WorkHours" class="control-label"></label>
-                <input asp-for="WorkHours" class="form-control" />
-                <span asp-validation-for="WorkHours" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
+    <div>
+        <a asp-action="Index">Volver al Listado</a>
     </div>
 </div>
+
+
+}
+
 
 

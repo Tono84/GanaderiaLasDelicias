@@ -331,15 +331,17 @@ namespace GanaderiaLasDelicias.Models
             {
                 entity.ToTable("Schedule");
 
-                entity.Property(e => e.ScheduleId).HasColumnName("ScheduleID");
+                entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
 
-                entity.Property(e => e.Description).HasMaxLength(255);
+                entity.Property(e => e.WorkDays).HasMaxLength(50).IsRequired();
 
-                entity.Property(e => e.WorkDays).HasMaxLength(50);
+                entity.Property(e => e.OffDays).HasMaxLength(50).IsRequired();
 
-                entity.Property(e => e.WorkHours).HasMaxLength(50);
+                entity.Property(e => e.WorkHours).HasMaxLength(50).IsRequired();
 
-                entity.Property(e => e.OffDays).HasMaxLength(50);
+                entity.Property(e => e.ShiftType).IsRequired();
+
+                entity.Property(e => e.IsActive).IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);
