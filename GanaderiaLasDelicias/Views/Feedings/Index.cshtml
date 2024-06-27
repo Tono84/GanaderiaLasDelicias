@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.Feeding>
+
+<h2>Índice</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a> 
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre de la Vaca
+            </th>
+            <th>
+                Suplemento Consumido 
+            </th>
+            <th>
+                Horas de Pastoreo 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.oHerd.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplementConsumed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GrazingHours)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.FeedingId" class="btn btn-info">Detalles</a> | <!-- Mejora del botón Detalles -->
+                    <a asp-action="Edit" asp-route-id="@item.FeedingId" class="btn btn-warning">Editar</a> | <!-- Mejora del botón Editar -->
+                    <a asp-action="Delete" asp-route-id="@item.FeedingId" class="btn btn-danger">Eliminar</a> <!-- Mejora del botón Eliminar -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

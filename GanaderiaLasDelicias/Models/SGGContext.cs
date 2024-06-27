@@ -33,6 +33,9 @@ namespace GanaderiaLasDelicias.Models
         public virtual DbSet<NutritionHistory> NutritionHistories { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Treatment> Treatments { get; set; } = null!;
+        public DbSet<Bull> Bulls { get; set; }
+        public virtual DbSet<Feeding> Feedings { get; set; }
+        public virtual DbSet<HealthRecord> HealthRecords { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -322,6 +325,43 @@ namespace GanaderiaLasDelicias.Models
                 entity.Property(e => e.Frequency).HasMaxLength(50);
 
                 entity.Property(e => e.MedName).HasMaxLength(50);
+            });
+
+
+            modelBuilder.Entity<Feeding>(entity =>
+            {
+                entity.HasKey(e => e.FeedingId);
+
+                entity.ToTable("Feedings");
+
+                entity.Property(e => e.SupplementConsumed).IsRequired();
+
+                entity.Property(e => e.GrazingHours).IsRequired();
+
+                entity.HasOne(d => d.oHerd) 
+                    .WithMany(p => p.Feedings)
+                    .HasForeignKey(d => d.CowId)
+                    .HasConstraintName("FK_COW");
+            });
+
+            modelBuilder.Entity<HealthRecord>(entity =>
+            {
+                entity.HasKey(e => e.HealthRecordId)
+                    .HasName("PK__HealthRecord__HealthRecordId");
+
+                entity.ToTable("HealthRecord");
+
+                entity.Property(e => e.HealthStatus).HasMaxLength(50);
+                entity.Property(e => e.Treatment).HasMaxLength(50);
+                entity.Property(e => e.PrescribedMedication).HasMaxLength(50);
+                entity.Property(e => e.Dose).HasMaxLength(50);
+                entity.Property(e => e.Frequency).HasMaxLength(50);
+
+                entity.HasOne(d => d.oHerd)
+                    .WithMany(p => p.HealthRecords)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_COW");
             });
 
             OnModelCreatingPartial(modelBuilder);
