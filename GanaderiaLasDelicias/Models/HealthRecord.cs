@@ -1,6 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace GanaderiaLasDelicias.Models
 {
@@ -18,6 +17,6 @@ namespace GanaderiaLasDelicias.Models
         public DateTime? CheckupDate { get; set; }
         public DateTime? VaccinationDate { get; set; }
 
-        public virtual Herd? oHerd { get; set; }
+        public virtual Herd Cow { get; set; } = null!;
     }
 }

@@ -22,20 +22,21 @@ namespace GanaderiaLasDelicias.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } = null!;
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
+        public virtual DbSet<Bull> Bulls { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<EmployeePayment> EmployeePayments { get; set; } = null!;
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; } = null!;
         public virtual DbSet<EventLog> EventLogs { get; set; } = null!;
+        public virtual DbSet<Feeding> Feedings { get; set; } = null!;
+        public virtual DbSet<HealthRecord> HealthRecords { get; set; } = null!;
         public virtual DbSet<Herd> Herds { get; set; } = null!;
         public virtual DbSet<MedHistory> MedHistories { get; set; } = null!;
         public virtual DbSet<Milking> Milkings { get; set; } = null!;
         public virtual DbSet<Nutrition> Nutritions { get; set; } = null!;
         public virtual DbSet<NutritionHistory> NutritionHistories { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<Pregnancy> Pregnancies { get; set; } = null!;
         public virtual DbSet<Treatment> Treatments { get; set; } = null!;
-        public DbSet<Bull> Bulls { get; set; }
-        public virtual DbSet<Feeding> Feedings { get; set; }
-        public virtual DbSet<HealthRecord> HealthRecords { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -137,6 +138,17 @@ namespace GanaderiaLasDelicias.Models
                     .HasForeignKey(d => d.UserId);
             });
 
+            modelBuilder.Entity<Bull>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.PurchaseDate).HasColumnType("date");
+
+                entity.Property(e => e.SemenCost).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Weight).HasColumnType("decimal(18, 2)");
+            });
+
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.ToTable("Employee");
@@ -158,8 +170,7 @@ namespace GanaderiaLasDelicias.Models
                 entity.HasOne(d => d.AspNetUser)
                     .WithMany(p => p.Employees)
                     .HasForeignKey(d => d.AspNetUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Employee__AspNet__4CA06362");
+                    .HasConstraintName("FK__Employee__AspNet__09A971A2");
             });
 
             modelBuilder.Entity<EmployeePayment>(entity =>
@@ -172,19 +183,19 @@ namespace GanaderiaLasDelicias.Models
                     .WithMany(p => p.EmployeePayments)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__EmployeeP__Emplo__5165187F");
+                    .HasConstraintName("FK__EmployeeP__Emplo__0E6E26BF");
 
                 entity.HasOne(d => d.Payment)
                     .WithMany(p => p.EmployeePayments)
                     .HasForeignKey(d => d.PaymentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__EmployeeP__Payme__52593CB8");
+                    .HasConstraintName("FK__EmployeeP__Payme__0F624AF8");
             });
 
             modelBuilder.Entity<ErrorLog>(entity =>
             {
                 entity.HasKey(e => e.ErrorId)
-                    .HasName("PK__ErrorLog__35856A2AB43D4D36");
+                    .HasName("PK__ErrorLog__35856A2AB08BABF2");
 
                 entity.ToTable("ErrorLog");
 
@@ -198,13 +209,13 @@ namespace GanaderiaLasDelicias.Models
                     .WithMany(p => p.ErrorLogs)
                     .HasForeignKey(d => d.AspNetUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ErrorLog__AspNet__628FA481");
+                    .HasConstraintName("FK__ErrorLog__AspNet__236943A5");
             });
 
             modelBuilder.Entity<EventLog>(entity =>
             {
                 entity.HasKey(e => e.EventId)
-                    .HasName("PK__EventLog__7944C8104FF94C7F");
+                    .HasName("PK__EventLog__7944C810BB19E337");
 
                 entity.ToTable("EventLog");
 
@@ -218,13 +229,51 @@ namespace GanaderiaLasDelicias.Models
                     .WithMany(p => p.EventLogs)
                     .HasForeignKey(d => d.AspNetUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__EventLog__AspNet__656C112C");
+                    .HasConstraintName("FK__EventLog__AspNet__2645B050");
+            });
+
+            modelBuilder.Entity<Feeding>(entity =>
+            {
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.Feedings)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_COW");
+            });
+
+            modelBuilder.Entity<HealthRecord>(entity =>
+            {
+                entity.ToTable("HealthRecord");
+
+                entity.Property(e => e.CheckupDate).HasColumnType("date");
+
+                entity.Property(e => e.DiagnosisDate).HasColumnType("date");
+
+                entity.Property(e => e.Dose).HasMaxLength(50);
+
+                entity.Property(e => e.Frequency).HasMaxLength(50);
+
+                entity.Property(e => e.HealthStatus).HasMaxLength(50);
+
+                entity.Property(e => e.PrescribedMedication).HasMaxLength(50);
+
+                entity.Property(e => e.StateChangeDate).HasColumnType("date");
+
+                entity.Property(e => e.Treatment).HasMaxLength(50);
+
+                entity.Property(e => e.VaccinationDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.HealthRecords)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__HealthRec__CowId__32AB8735");
             });
 
             modelBuilder.Entity<Herd>(entity =>
             {
                 entity.HasKey(e => e.CowId)
-                    .HasName("PK__Herd__E32F8708DEB085E6");
+                    .HasName("PK__Herd__E32F87086F973A68");
 
                 entity.ToTable("Herd");
 
@@ -245,65 +294,97 @@ namespace GanaderiaLasDelicias.Models
                     .WithMany(p => p.MedHistories)
                     .HasForeignKey(d => d.CowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedHistor__CowId__59063A47");
+                    .HasConstraintName("FK__MedHistor__CowId__160F4887");
 
                 entity.HasOne(d => d.Treatment)
                     .WithMany(p => p.MedHistories)
                     .HasForeignKey(d => d.TreatmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedHistor__Treat__59FA5E80");
+                    .HasConstraintName("FK__MedHistor__Treat__17036CC0");
             });
 
             modelBuilder.Entity<Milking>(entity =>
             {
                 entity.ToTable("Milking");
 
+                entity.Property(e => e.FatContent).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.LactoseContent).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.MilkVolume).HasColumnType("decimal(18, 0)");
+
                 entity.Property(e => e.MilkingDate).HasColumnType("date");
+
+                entity.Property(e => e.ProteinContent).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.Cow)
                     .WithMany(p => p.Milkings)
                     .HasForeignKey(d => d.CowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Milking__CowId__05D8E0BE");
+                    .HasConstraintName("FK__Milking__CowId__1F98B2C1");
 
                 entity.HasOne(d => d.Milker)
                     .WithMany(p => p.Milkings)
                     .HasForeignKey(d => d.MilkerId)
-                    .HasConstraintName("FK__Milking__MilkerI__06CD04F7");
+                    .HasConstraintName("FK__Milking__MilkerI__208CD6FA");
             });
 
             modelBuilder.Entity<Nutrition>(entity =>
             {
                 entity.HasKey(e => e.NutritionPlanId)
-                    .HasName("PK__Nutritio__013DA37D7837241C");
+                    .HasName("PK__Nutritio__013DA37D62C79602");
 
                 entity.ToTable("Nutrition");
+
+                entity.Property(e => e.Carbs).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Minerals).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Protein).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Supplement).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Vitamins).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Water).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.Cow)
                     .WithMany(p => p.Nutritions)
                     .HasForeignKey(d => d.CowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Nutrition__CowId__5CD6CB2B");
+                    .HasConstraintName("FK__Nutrition__CowId__19DFD96B");
             });
 
             modelBuilder.Entity<NutritionHistory>(entity =>
             {
                 entity.HasKey(e => e.NutritionHisId)
-                    .HasName("PK__Nutritio__FF29FA846B12E223");
+                    .HasName("PK__Nutritio__FF29FA84A37B7EF8");
 
                 entity.ToTable("NutritionHistory");
+
+                entity.Property(e => e.DailyCarbs).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.DailyMinerals).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.DailyProtein).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.DailySupplement).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.DailyVitamins).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.DailyWater).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.NutritionPlan)
                     .WithMany(p => p.NutritionHistories)
                     .HasForeignKey(d => d.NutritionPlanId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Nutrition__Nutri__02FC7413");
+                    .HasConstraintName("FK__Nutrition__Nutri__1CBC4616");
             });
 
             modelBuilder.Entity<Payment>(entity =>
             {
                 entity.HasKey(e => e.PayId)
-                    .HasName("PK__Payment__EE8FCECF08AFEBCE");
+                    .HasName("PK__Payment__EE8FCECFB2A3D467");
 
                 entity.ToTable("Payment");
 
@@ -316,6 +397,27 @@ namespace GanaderiaLasDelicias.Models
                 entity.Property(e => e.Tax).HasColumnType("decimal(18, 2)");
             });
 
+            modelBuilder.Entity<Pregnancy>(entity =>
+            {
+                entity.ToTable("Pregnancy");
+
+                entity.Property(e => e.Note).HasMaxLength(50);
+
+                entity.Property(e => e.PregDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Bull)
+                    .WithMany(p => p.Pregnancies)
+                    .HasForeignKey(d => d.BullId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Pregnancy__BullI__367C1819");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.Pregnancies)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Pregnancy__CowId__3587F3E0");
+            });
+
             modelBuilder.Entity<Treatment>(entity =>
             {
                 entity.ToTable("Treatment");
@@ -325,43 +427,6 @@ namespace GanaderiaLasDelicias.Models
                 entity.Property(e => e.Frequency).HasMaxLength(50);
 
                 entity.Property(e => e.MedName).HasMaxLength(50);
-            });
-
-
-            modelBuilder.Entity<Feeding>(entity =>
-            {
-                entity.HasKey(e => e.FeedingId);
-
-                entity.ToTable("Feedings");
-
-                entity.Property(e => e.SupplementConsumed).IsRequired();
-
-                entity.Property(e => e.GrazingHours).IsRequired();
-
-                entity.HasOne(d => d.oHerd) 
-                    .WithMany(p => p.Feedings)
-                    .HasForeignKey(d => d.CowId)
-                    .HasConstraintName("FK_COW");
-            });
-
-            modelBuilder.Entity<HealthRecord>(entity =>
-            {
-                entity.HasKey(e => e.HealthRecordId)
-                    .HasName("PK__HealthRecord__HealthRecordId");
-
-                entity.ToTable("HealthRecord");
-
-                entity.Property(e => e.HealthStatus).HasMaxLength(50);
-                entity.Property(e => e.Treatment).HasMaxLength(50);
-                entity.Property(e => e.PrescribedMedication).HasMaxLength(50);
-                entity.Property(e => e.Dose).HasMaxLength(50);
-                entity.Property(e => e.Frequency).HasMaxLength(50);
-
-                entity.HasOne(d => d.oHerd)
-                    .WithMany(p => p.HealthRecords)
-                    .HasForeignKey(d => d.CowId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_COW");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -9,10 +9,10 @@ namespace GanaderiaLasDelicias.Models
         public int CowId { get; set; }
         public DateTime MilkingDate { get; set; }
         public TimeSpan MilkingTime { get; set; }
-        public double MilkVolume { get; set; }
-        public double? FatContent { get; set; }
-        public double? ProteinContent { get; set; }
-        public double? LactoseContent { get; set; }
+        public decimal MilkVolume { get; set; }
+        public decimal? FatContent { get; set; }
+        public decimal? ProteinContent { get; set; }
+        public decimal? LactoseContent { get; set; }
         public int? SomaticCellCount { get; set; }
         public int? MilkerId { get; set; }
 

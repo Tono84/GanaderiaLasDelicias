@@ -1,0 +1,47 @@
+﻿@model GanaderiaLasDelicias.Models.Pregnancy
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Detalles del Embarazo</h3>
+        </div>
+        <div ="card-body">
+
+            <hr />
+            <dl class="row" style="margin-left: 1%;">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PregDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PregDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bull)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bull.BullId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cow)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cow.CowId)
+        </dd>
+    </dl>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PregnancyId">Editar</a> |
+    <a asp-action="Index">Regresar</a>
+</div>

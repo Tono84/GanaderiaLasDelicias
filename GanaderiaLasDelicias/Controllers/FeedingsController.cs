@@ -20,7 +20,7 @@ namespace GanaderiaLasDelicias.Controllers
         public async Task<IActionResult> Index()
         {
             var feedings = await _context.Feedings
-                .Include(f => f.oHerd) 
+                .Include(f => f.Cow) 
                 .ToListAsync();
 
             return View(feedings);
@@ -35,7 +35,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var feeding = await _context.Feedings
-                .Include(f => f.oHerd)
+                .Include(f => f.Cow)
                 .FirstOrDefaultAsync(m => m.FeedingId == id);
 
             if (feeding == null)
@@ -77,7 +77,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var feeding = await _context.Feedings
-                .Include(f => f.oHerd)
+                .Include(f => f.Cow)
                 .FirstOrDefaultAsync(m => m.FeedingId == id);
             if (feeding == null)
             {
@@ -135,7 +135,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var feeding = await _context.Feedings
-                .Include(f => f.oHerd)
+                .Include(f => f.Cow)
                 .FirstOrDefaultAsync(m => m.FeedingId == id);
 
             if (feeding == null)

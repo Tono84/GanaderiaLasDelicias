@@ -12,12 +12,12 @@ namespace GanaderiaLasDelicias.Models
 
         public int NutritionPlanId { get; set; }
         public int CowId { get; set; }
-        public double? Protein { get; set; }
-        public double? Supplement { get; set; }
-        public double? Water { get; set; }
-        public double? Minerals { get; set; }
-        public double? Vitamins { get; set; }
-        public double? Carbs { get; set; }
+        public decimal? Protein { get; set; }
+        public decimal? Supplement { get; set; }
+        public decimal? Water { get; set; }
+        public decimal? Minerals { get; set; }
+        public decimal? Vitamins { get; set; }
+        public decimal? Carbs { get; set; }
 
         public virtual Herd Cow { get; set; } = null!;
         public virtual ICollection<NutritionHistory> NutritionHistories { get; set; }
