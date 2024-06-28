@@ -1,0 +1,63 @@
+﻿@model GanaderiaLasDelicias.Models.Herd
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Desactivar Usuario</h3>
+        </div>
+        <div ="card-body">
+
+            <hr />
+            <dl class="row" style="margin-left: 1%;">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Race)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Race)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+    
+        </div>
+    </div>
+    <div>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="CowId" />
+            <input type="submit" value="Desactivar" class="btn btn-danger" /> |
+            <a asp-action="Index">Regresar</a>
+        </form>
+    </div>>
+</div>
