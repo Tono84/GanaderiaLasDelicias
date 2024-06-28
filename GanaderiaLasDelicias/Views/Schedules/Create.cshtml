@@ -23,23 +23,31 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ShiftType" class="control-label">Tipo de Turno:</label>
-                    <input asp-for="ShiftType" class="form-control" />
+                    <select asp-for="ShiftType" class="form-control">
+                        <option value="1">Diurno</option>
+                        <option value="2">Nocturno</option>
+                    </select>
                     <span asp-validation-for="ShiftType" class="text-danger"></span>
+                    <small class="text-muted">Selecciona el tipo de turno (diurno o nocturno).</small>
                 </div>
+
                 <div class="form-group">
                     <label asp-for="WorkDays" class="control-label">Días Laborales:</label>
                     <input asp-for="WorkDays" class="form-control" />
                     <span asp-validation-for="WorkDays" class="text-danger"></span>
+                    <small class="text-muted">Ejemplo: Lunes a Sábado (separados por comas si son varios).</small>
                 </div>
                 <div class="form-group">
                     <label asp-for="OffDays" class="control-label">Días de Descanso:</label>
                     <input asp-for="OffDays" class="form-control" />
                     <span asp-validation-for="OffDays" class="text-danger"></span>
+                    <small class="text-muted">Ejemplo: Domingo.</small>
                 </div>
                 <div class="form-group">
                     <label asp-for="WorkHours" class="control-label">Horas de Trabajo:</label>
                     <input asp-for="WorkHours" class="form-control" />
                     <span asp-validation-for="WorkHours" class="text-danger"></span>
+                    <small class="text-muted">Ejemplo: 08:00 - 17:00.</small>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
@@ -60,6 +68,47 @@
 
 
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<!-- Script para SweetAlert -->
+<script>
+    // Espera a que el documento esté completamente cargado
+    $(document).ready(function () {
+        // Captura el evento submit del formulario
+        $('#createForm').submit(function (event) {
+            // Previene el envío del formulario por defecto
+            event.preventDefault();
 
+            // Realiza la petición de envío del formulario usando AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    // Muestra el SweetAlert de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Horario creado!',
+                        text: 'El horario se ha registrado correctamente.',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirecciona a la página de listado
+                            window.location.href = '/Schedule/Index';
+                        }
+                    });
+                },
+                error: function () {
+                    // Muestra el SweetAlert de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un problema al intentar crear el horario.'
+                    });
+                }
+            });
+        });
+    });
+</script>
 

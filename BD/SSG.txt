@@ -157,7 +157,10 @@ CREATE TABLE Schedule (
 
 -- Ejemplo de horarios
 --INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
---VALUES ('Horario Diurno Lunes a Viernes', 1, 'Lunes a Viernes', 'Sábado y Domingo', '08:00 - 17:00');
+--VALUES ('Horario Diurno', 1, 'Lunes a Sábado', 'Domingo', '08:00 - 17:00');
 --INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
---VALUES ('Horario Nocturno', 2, 'Lunes a Viernes', 'Sábado y Domingo', '21:00 - 05:00');
+--VALUES ('Horario Nocturno', 2, 'Martes a Domingo', 'Domingo', '21:00 - 05:00');
+-- Horario de Medio Tiempo
+--INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
+--VALUES ('Horario de Medio Tiempo', 1, 'Miércoles a Domingo', 'Lunes y Martes', '09:00 - 13:00');
 

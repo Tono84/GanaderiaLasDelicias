@@ -12,24 +12,12 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShiftType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkDays)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OffDays)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkHours)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
+            <th>Nombre</th>
+            <th>Tipo de Turno</th>
+            <th>Días Laborales</th>
+            <th>Días de Descanso</th>
+            <th>Horas de Trabajo</th>
+            <th>Activo</th>
             <th></th>
         </tr>
     </thead>
@@ -37,24 +25,12 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShiftType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkDays)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OffDays)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@(item.ShiftType == 1 ? "Diurno" : item.ShiftType == 2 ? "Nocturno" : "Desconocido")</td>
+                <td>@Html.DisplayFor(modelItem => item.WorkDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.OffDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.WorkHours)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ScheduleId" class="btn btn-primary">Editar</a> |
                     <a asp-action="Details" asp-route-id="@item.ScheduleId" class="btn btn-info">Detalles</a> |
@@ -64,4 +40,3 @@
         }
     </tbody>
 </table>
-
