@@ -1,0 +1,74 @@
+﻿@model GanaderiaLasDelicias.Models.HealthRecord
+
+<h2>Detalles del Registro de Salud</h2>
+
+<div>
+    <h4>Registro de Salud</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre de la Vaca
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.oHerd.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Estado de Salud
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HealthStatus)
+        </dd>
+        <dt class="col-sm-2">
+            Tratamiento
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Treatment)
+        </dd>
+        <dt class="col-sm-2">
+            Medicación Prescrita
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrescribedMedication)
+        </dd>
+        <dt class="col-sm-2">
+            Dosis
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Dose)
+        </dd>
+        <dt class="col-sm-2">
+            Frecuencia
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Frequency)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Diagnóstico
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DiagnosisDate)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Cambio de Estado
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StateChangeDate)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Chequeo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CheckupDate)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Vacunación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VaccinationDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.HealthRecordId" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Atrás a la lista</a>
+</div>
