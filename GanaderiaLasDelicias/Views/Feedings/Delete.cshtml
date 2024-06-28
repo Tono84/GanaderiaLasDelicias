@@ -1,0 +1,31 @@
+﻿@model GanaderiaLasDelicias.Models.Feeding
+
+<h2>Eliminar</h2>
+
+<h3>¿Estás seguro de que quieres eliminar esta alimentación?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            <strong>Nombre de la Vaca:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.oHerd.Name
+        </dd>
+        <dt class="col-sm-2">
+            <strong>Suplemento Consumido:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SupplementConsumed)
+        </dd>
+        <dt class="col-sm-2">
+            <strong>Horas de Pastoreo:</strong>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GrazingHours)
+        </dd>
+    </dl>
+    <form asp-action="Delete" asp-route-id="@Model.FeedingId">
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> <!-- Mejora del botón Eliminar -->
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a> <!-- Mejora del botón Cancelar -->
+    </form>
+</div>

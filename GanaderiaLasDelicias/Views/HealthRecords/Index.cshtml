@@ -1,0 +1,87 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.HealthRecord>
+
+<h2>Lista de Registros de Salud</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre de la Vaca
+            </th>
+            <th>
+                Estado de Salud
+            </th>
+            <th>
+                Tratamiento
+            </th>
+            <th>
+                Medicación Prescrita
+            </th>
+            <th>
+                Dosis
+            </th>
+            <th>
+                Frecuencia
+            </th>
+            <th>
+                Fecha de Diagnóstico
+            </th>
+            <th>
+                Fecha de Cambio de Estado
+            </th>
+            <th>
+                Fecha de Chequeo
+            </th>
+            <th>
+                Fecha de Vacunación
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.oHerd.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HealthStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Treatment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrescribedMedication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Frequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiagnosisDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StateChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckupDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VaccinationDate)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.HealthRecordId" class="btn btn-info">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@item.HealthRecordId" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.HealthRecordId" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+﻿@model GanaderiaLasDelicias.Models.Feeding
+
+<h2>Crear</h2>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="CowId" class="control-label">Nombre de la Vaca</label>
+        <select asp-for="CowId" class="form-control">
+            @foreach (var herd in ViewBag.HerdList as List<GanaderiaLasDelicias.Models.Herd>)
+            {
+                <option value="@herd.CowId">@herd.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CowId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SupplementConsumed" class="control-label">Suplemento Consumido</label> 
+        <input asp-for="SupplementConsumed" class="form-control" />
+        <span asp-validation-for="SupplementConsumed" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GrazingHours" class="control-label">Horas de Pastoreo</label> 
+        <input asp-for="GrazingHours" class="form-control" />
+        <span asp-validation-for="GrazingHours" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Crear</button> 
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a> 
+    </div>
+</form>
