@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+
 
 namespace GanaderiaLasDelicias.Models
 {
@@ -17,6 +20,8 @@ namespace GanaderiaLasDelicias.Models
         }
 
         public string Id { get; set; } = null!;
+
+        [Display(Name="Usuario")]
         public string? UserName { get; set; }
         public string? NormalizedUserName { get; set; }
         public string? Email { get; set; }
