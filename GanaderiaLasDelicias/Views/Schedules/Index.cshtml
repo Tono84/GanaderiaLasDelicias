@@ -1,0 +1,42 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.Schedule>
+
+@{
+    ViewData["Title"] = "Índice";
+}
+
+<h1>Índice</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Turno</th>
+            <th>Días Laborales</th>
+            <th>Días de Descanso</th>
+            <th>Horas de Trabajo</th>
+            <th>Activo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@(item.ShiftType == 1 ? "Diurno" : item.ShiftType == 2 ? "Nocturno" : "Desconocido")</td>
+                <td>@Html.DisplayFor(modelItem => item.WorkDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.OffDays)</td>
+                <td>@Html.DisplayFor(modelItem => item.WorkHours)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ScheduleId" class="btn btn-primary">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.ScheduleId" class="btn btn-info">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ScheduleId" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

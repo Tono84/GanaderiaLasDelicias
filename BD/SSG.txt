@@ -1,0 +1,166 @@
+-- Creación de Base de datos
+CREATE DATABASE SGG;
+
+USE SGG;
+GO
+
+-- Sentencias Drop de tablas
+DROP TABLE IF EXISTS EmployeePayment;
+DROP TABLE IF EXISTS Employee;
+DROP TABLE IF EXISTS Payment;
+DROP TABLE IF EXISTS MedHistory;
+DROP TABLE IF EXISTS Treatment;
+DROP TABLE IF EXISTS Nutrition;
+DROP TABLE IF EXISTS Milking;
+DROP TABLE IF EXISTS Herd;
+DROP TABLE IF EXISTS ErrorLog;
+DROP TABLE IF EXISTS EventLog;
+DROP TABLE IF EXISTS NutritionHistory;
+
+-- Creación de Tablas
+
+-- Creación de la tabla Employee
+CREATE TABLE Employee (
+    EmployeeId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    NatId NVARCHAR(50) NOT NULL,
+    JobTitle NVARCHAR(50) NOT NULL,
+    BaseSalary DECIMAL(18, 2) NOT NULL,
+    ScheduleId INT NOT NULL,
+    AspNetUserId NVARCHAR(450) NULL -- Cambiado a NULL para evitar problemas
+);
+
+ALTER TABLE Employee
+ADD Status NVARCHAR(50);
+
+-- Creación de la tabla Payment
+CREATE TABLE Payment (
+    PayId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    PaymentDate DATE NOT NULL,
+    CCSS DECIMAL(18, 2) NOT NULL,
+    Tax DECIMAL(18, 2) NOT NULL
+);
+
+-- Creación de la tabla EmployeePayment
+CREATE TABLE EmployeePayment (
+    EmployeePaymentId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    VacationsUsed INT NOT NULL,
+    NetPay DECIMAL(18, 2) NOT NULL,
+    EmployeeId INT NOT NULL,
+    PaymentId INT NOT NULL,
+    FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId),
+    FOREIGN KEY (PaymentId) REFERENCES Payment(PayId)
+);
+
+-- Creación de la tabla Herd
+CREATE TABLE Herd (
+    CowId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL,
+    Number INT NOT NULL,
+    Race NVARCHAR(50) NOT NULL,
+    Age INT NOT NULL,
+    Weight DECIMAL(18, 2) NOT NULL,
+    Status NVARCHAR(50) NOT NULL
+);
+
+-- Creación de la tabla Treatment
+CREATE TABLE Treatment (
+    TreatmentId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    MedName NVARCHAR(50) NOT NULL,
+    Frequency NVARCHAR(50) NOT NULL,
+    Dosis NVARCHAR(50) NOT NULL
+);
+
+-- Creación de la tabla MedHistory
+CREATE TABLE MedHistory (
+    MedHistoryId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CowId INT NOT NULL,
+    TreatmentId INT NOT NULL,
+    FOREIGN KEY (CowId) REFERENCES Herd(CowId),
+    FOREIGN KEY (TreatmentId) REFERENCES Treatment(TreatmentId)
+);
+
+-- Creación de la tabla Nutrition
+CREATE TABLE Nutrition (
+    NutritionPlanId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CowId INT NOT NULL,
+    FOREIGN KEY (CowId) REFERENCES Herd(CowId)
+);
+
+ALTER TABLE Nutrition
+ADD Protein DECIMAL,
+    Supplement DECIMAL,
+    Water DECIMAL,
+    Minerals DECIMAL,
+    Vitamins DECIMAL,
+    Carbs DECIMAL;
+
+-- Creación de la tabla NutritionHistory
+CREATE TABLE NutritionHistory (
+    NutritionHisId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    NutritionPlanId INT NOT NULL,
+    DailyProtein DECIMAL,
+    DailySupplement DECIMAL,
+    DailyWater DECIMAL,
+    DailyMinerals DECIMAL,
+    DailyVitamins DECIMAL,
+    DailyCarbs DECIMAL,
+    FOREIGN KEY (NutritionPlanId) REFERENCES Nutrition(NutritionPlanId)
+);
+
+-- Creación de la tabla Milking
+CREATE TABLE Milking (
+    MilkingId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CowId INT NOT NULL,
+    MilkingDate DATE NOT NULL,
+    MilkingTime TIME NOT NULL,
+    MilkVolume DECIMAL NOT NULL,
+    FatContent DECIMAL,
+    ProteinContent DECIMAL,
+    LactoseContent DECIMAL,
+    SomaticCellCount INT,
+    MilkerId INT,
+    FOREIGN KEY (CowId) REFERENCES Herd(CowId),
+    FOREIGN KEY (MilkerId) REFERENCES Employee(EmployeeId)
+);
+
+-- Creación de la tabla ErrorLog
+CREATE TABLE ErrorLog (
+    ErrorId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    ErrorDescription NVARCHAR(255) NOT NULL,
+    ErrorMessage NVARCHAR(255) NOT NULL,
+    AspNetUserId NVARCHAR(450) NULL -- Cambiado a NULL para evitar problemas
+);
+
+-- Creación de la tabla EventLog
+CREATE TABLE EventLog (
+    EventId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    EventDescription NVARCHAR(255) NOT NULL,
+    Date DATE NOT NULL,
+    Time TIME NOT NULL,
+    AspNetUserId NVARCHAR(450) NULL -- Cambiado a NULL para evitar problemas
+);
+
+-- Creación de Tabla de Horarios
+
+CREATE TABLE Schedule (
+    ScheduleId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    ShiftType INT NOT NULL, -- 1 para diurno, 2 para nocturno
+    WorkDays NVARCHAR(50) NOT NULL,
+    OffDays NVARCHAR(50) NOT NULL,
+    WorkHours NVARCHAR(50) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1
+);
+
+
+-- Ejemplo de horarios
+--INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
+--VALUES ('Horario Diurno', 1, 'Lunes a Sábado', 'Domingo', '08:00 - 17:00');
+--INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
+--VALUES ('Horario Nocturno', 2, 'Martes a Domingo', 'Domingo', '21:00 - 05:00');
+-- Horario de Medio Tiempo
+--INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
+--VALUES ('Horario de Medio Tiempo', 1, 'Miércoles a Domingo', 'Lunes y Martes', '09:00 - 13:00');
+
