@@ -164,3 +164,41 @@ CREATE TABLE Schedule (
 --INSERT INTO Schedule (Name, ShiftType, WorkDays, OffDays, WorkHours)
 --VALUES ('Horario de Medio Tiempo', 1, 'Miércoles a Domingo', 'Lunes y Martes', '09:00 - 13:00');
 
+CREATE TABLE HealthRecord (
+    HealthRecordId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CowId INT NOT NULL,
+    HealthStatus NVARCHAR(50) NOT NULL,
+    Treatment NVARCHAR(50),
+    PrescribedMedication NVARCHAR(50),
+    Dose NVARCHAR(50),
+    Frequency NVARCHAR(50),
+    DiagnosisDate DATE,
+    StateChangeDate DATE,
+    CheckupDate DATE,
+    VaccinationDate DATE,
+    CONSTRAINT FK_COW FOREIGN KEY (CowId) REFERENCES Herd(CowId)
+);
+
+
+
+CREATE TABLE Feedings (
+    FeedingId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CowId INT NOT NULL,
+    SupplementConsumed INT NOT NULL,
+    GrazingHours INT NOT NULL,
+    CONSTRAINT FK_COW FOREIGN KEY (CowId) REFERENCES Herd(CowId)
+);
+
+
+
+CREATE TABLE Bulls (
+    BullId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL,
+    Weight DECIMAL(18, 2) NOT NULL,
+    PurchaseDate DATE NOT NULL,
+    Age INT NOT NULL,
+    SemenCost DECIMAL(18, 2) NOT NULL,
+    InseminatedCows INT,
+    PregnantCows INT
+);
+
