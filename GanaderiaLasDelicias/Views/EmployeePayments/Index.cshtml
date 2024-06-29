@@ -1,0 +1,54 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.EmployeePayment>
+
+@{
+    ViewData["Title"] = "Índice de Pagos";
+}
+
+<h1>Índice de Pagos</h1>
+
+<p>
+    <a asp-action="Create">Crear Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Vacaciones Usadas
+            </th>
+            <th>
+                Pago Neto
+            </th>
+            <th>
+                Empleado
+            </th>
+            <th>
+                Pago
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacationsUsed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NetPay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment.PayId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmployeePaymentId">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.EmployeePaymentId">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EmployeePaymentId">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

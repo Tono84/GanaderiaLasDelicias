@@ -1,0 +1,72 @@
+﻿@model GanaderiaLasDelicias.Models.Milking
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Milking</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MilkingDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MilkingDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MilkingTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MilkingTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MilkVolume)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MilkVolume)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FatContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FatContent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProteinContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProteinContent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LactoseContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LactoseContent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SomaticCellCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SomaticCellCount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cow)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cow.CowId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Milker)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Milker.EmployeeId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MilkingId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
