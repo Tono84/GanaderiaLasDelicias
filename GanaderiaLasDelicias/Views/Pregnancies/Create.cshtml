@@ -1,0 +1,47 @@
+﻿@model GanaderiaLasDelicias.Models.Pregnancy
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="card">
+    <div class="card-header">
+        <h3>Registrar Embarazo</h3>
+    </div>
+    <hr />
+
+    <div class="row" style="margin-left: 1%;">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CowId" class="control-label"></label>
+                <select asp-for="CowId" class ="form-control" asp-items="ViewBag.CowId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PregDate" class="control-label"></label>
+                <input asp-for="PregDate" class="form-control" />
+                <span asp-validation-for="PregDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BullId" class="control-label"></label>
+                <select asp-for="BullId" class ="form-control" asp-items="ViewBag.BullId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<div>
+    <a asp-action="Index">Regresar</a>
+</div>
+
+@* @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@

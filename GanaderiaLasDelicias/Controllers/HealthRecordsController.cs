@@ -20,7 +20,7 @@ namespace GanaderiaLasDelicias.Controllers
         public async Task<IActionResult> Index()
         {
             var healthRecords = await _context.HealthRecords
-                .Include(h => h.oHerd)
+                .Include(h => h.Cow)
                 .ToListAsync();
             return View(healthRecords);
         }
@@ -34,7 +34,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var healthRecord = await _context.HealthRecords
-                .Include(h => h.oHerd)
+                .Include(h => h.Cow)
                 .FirstOrDefaultAsync(m => m.HealthRecordId == id);
             if (healthRecord == null)
             {
@@ -131,7 +131,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var healthRecord = await _context.HealthRecords
-                .Include(h => h.oHerd)
+                .Include(h => h.Cow)
                 .FirstOrDefaultAsync(m => m.HealthRecordId == id);
             if (healthRecord == null)
             {

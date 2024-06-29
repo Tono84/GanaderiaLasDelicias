@@ -7,12 +7,12 @@ namespace GanaderiaLasDelicias.Models
     {
         public int NutritionHisId { get; set; }
         public int NutritionPlanId { get; set; }
-        public double? DailyProtein { get; set; }
-        public double? DailySupplement { get; set; }
-        public double? DailyWater { get; set; }
-        public double? DailyMinerals { get; set; }
-        public double? DailyVitamins { get; set; }
-        public double? DailyCarbs { get; set; }
+        public decimal? DailyProtein { get; set; }
+        public decimal? DailySupplement { get; set; }
+        public decimal? DailyWater { get; set; }
+        public decimal? DailyMinerals { get; set; }
+        public decimal? DailyVitamins { get; set; }
+        public decimal? DailyCarbs { get; set; }
 
         public virtual Nutrition NutritionPlan { get; set; } = null!;
     }
