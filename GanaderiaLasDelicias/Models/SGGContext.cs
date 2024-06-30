@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using GanaderiaLasDelicias.Models;
 
 namespace GanaderiaLasDelicias.Models
 {
@@ -454,5 +455,8 @@ namespace GanaderiaLasDelicias.Models
 
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+        public DbSet<GanaderiaLasDelicias.Models.Salary>? Salary { get; set; }
     }
 }
