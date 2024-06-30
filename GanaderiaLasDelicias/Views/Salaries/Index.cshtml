@@ -1,65 +1,42 @@
 ﻿@model IEnumerable<GanaderiaLasDelicias.Models.Salary>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salarios";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GrossSalary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Deductions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NetSalary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VacationsUsed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
+            <th>ID Empleado</th>
+            <th>Salario Bruto</th>
+            <th>Deducciones</th>
+            <th>Salario Neto</th>
+            <th>Vacaciones Usadas</th>
+            <th>Fecha de Creación</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrossSalary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deductions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NetSalary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacationsUsed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SalaryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SalaryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SalaryId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.EmployeeId)</td>
+                <td>@Html.DisplayFor(modelItem => item.GrossSalary)</td>
+                <td>@Html.DisplayFor(modelItem => item.Deductions)</td>
+                <td>@Html.DisplayFor(modelItem => item.NetSalary)</td>
+                <td>@Html.DisplayFor(modelItem => item.VacationsUsed)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SalaryId" class="btn btn-primary">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.SalaryId" class="btn btn-info">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SalaryId" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
