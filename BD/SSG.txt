@@ -202,3 +202,13 @@ CREATE TABLE Bulls (
     PregnantCows INT
 );
 
+CREATE TABLE Salary (
+    SalaryId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    EmployeeId INT NOT NULL,
+    GrossSalary DECIMAL(18, 2) NOT NULL,
+    Deductions DECIMAL(18, 2) NOT NULL,
+    NetSalary DECIMAL(18, 2) NOT NULL,
+    VacationsUsed INT NOT NULL,
+    CreatedDate DATETIME NOT NULL
+);
+
