@@ -40,6 +40,9 @@ namespace GanaderiaLasDelicias.Models
         public virtual DbSet<Treatment> Treatments { get; set; } = null!;
 
         public virtual DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ReprodPregnancy> ReprodPregnancies { get; set; }
+
+        public DbSet<Insemination> Inseminations { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -449,6 +452,41 @@ namespace GanaderiaLasDelicias.Models
 
                 entity.Property(e => e.IsActive).IsRequired();
             });
+
+            modelBuilder.Entity<ReprodPregnancy>(entity =>
+            {
+                entity.ToTable("ReprodPregnancy");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.ReprodPregnancies)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ReprodPregnancy_CowId");
+            });
+
+            modelBuilder.Entity<Insemination>(entity =>
+            {
+                entity.ToTable("Insemination");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.Inseminations)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Insemination_CowId");
+
+                entity.HasOne(d => d.Bull)
+                    .WithMany(p => p.Inseminations)
+                    .HasForeignKey(d => d.BullId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Insemination_BullId");
+            });
+
 
             OnModelCreatingPartial(modelBuilder);
         }
