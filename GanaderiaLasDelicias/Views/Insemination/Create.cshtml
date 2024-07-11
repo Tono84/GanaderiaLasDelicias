@@ -1,0 +1,41 @@
+﻿@model GanaderiaLasDelicias.Models.Insemination
+
+@{
+    ViewData["Title"] = "Crear Inseminación";
+}
+
+<h2>Crear Inseminación</h2>
+
+<h4>Insemination</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="CowId" class="control-label">Vaca</label>
+                <select asp-for="CowId" class="form-control" asp-items="ViewBag.CowId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BullId" class="control-label">Toro</label>
+                <select asp-for="BullId" class="form-control" asp-items="ViewBag.BullId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Fecha</label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label">Estado</label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusOptions"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Volver al Listado</a>
+</div>

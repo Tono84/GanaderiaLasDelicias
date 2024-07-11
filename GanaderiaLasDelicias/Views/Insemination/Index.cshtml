@@ -1,0 +1,38 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.Insemination>
+
+@{
+    ViewData["Title"] = "Listado de Inseminaciones";
+}
+
+<h2>Listado de Inseminaciones</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Crear Nueva Inseminación</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Vaca</th>
+            <th>Toro</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Cow.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Bull.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.InseminationId">Editar</a> |
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.InseminationId">Detalles</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.InseminationId">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

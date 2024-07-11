@@ -15,30 +15,6 @@
             <th>
                 Estado de Salud
             </th>
-            <th>
-                Tratamiento
-            </th>
-            <th>
-                Medicación Prescrita
-            </th>
-            <th>
-                Dosis
-            </th>
-            <th>
-                Frecuencia
-            </th>
-            <th>
-                Fecha de Diagnóstico
-            </th>
-            <th>
-                Fecha de Cambio de Estado
-            </th>
-            <th>
-                Fecha de Chequeo
-            </th>
-            <th>
-                Fecha de Vacunación
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -47,35 +23,12 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cow)
+                    @Html.DisplayFor(modelItem => item.Cow.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.HealthStatus)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Treatment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrescribedMedication)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Dose)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Frequency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiagnosisDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StateChangeDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CheckupDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VaccinationDate)
-                </td>
+            
                 <td>
                     <a asp-action="Details" asp-route-id="@item.HealthRecordId" class="btn btn-info">Detalles</a>
                     <a asp-action="Edit" asp-route-id="@item.HealthRecordId" class="btn btn-warning">Editar</a>
