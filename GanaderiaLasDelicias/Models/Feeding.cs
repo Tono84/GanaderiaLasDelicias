@@ -10,6 +10,6 @@ namespace GanaderiaLasDelicias.Models
         public int SupplementConsumed { get; set; }
         public int GrazingHours { get; set; }
 
-        public virtual Herd Cow { get; set; } = null!;
+        public virtual Herd? Cow { get; set; } = null!;
     }
 }

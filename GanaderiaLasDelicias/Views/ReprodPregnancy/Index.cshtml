@@ -1,0 +1,38 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.ReprodPregnancy>
+
+@{
+    ViewData["Title"] = "Listado de Embarazos";
+}
+
+<h2>Listado de Embarazos</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Vaca</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Fin</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Cow.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.ReprodPregnancyId">Editar</a> |
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ReprodPregnancyId">Detalles</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ReprodPregnancyId">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

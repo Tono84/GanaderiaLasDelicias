@@ -1,0 +1,43 @@
+﻿@model GanaderiaLasDelicias.Models.ReprodPregnancy
+
+@{
+    ViewData["Title"] = "Editar Embarazo";
+}
+
+<h2>Editar Embarazo</h2>
+
+<h4>ReprodPregnancy</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="ReprodPregnancyId" />
+            <div class="form-group">
+                <label asp-for="CowId" class="control-label">Vaca</label>
+                <select asp-for="CowId" class="form-control" asp-items="ViewBag.CowId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Fecha de Inicio</label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">Fecha de Fin</label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label">Estado</label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusOptions"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Volver al Listado</a>
+</div>

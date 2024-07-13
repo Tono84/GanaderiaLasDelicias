@@ -17,6 +17,6 @@ namespace GanaderiaLasDelicias.Models
         public DateTime? CheckupDate { get; set; }
         public DateTime? VaccinationDate { get; set; }
 
-        public virtual Herd Cow { get; set; } = null!;
+        public virtual Herd? Cow { get; set; } = null!;
     }
 }
