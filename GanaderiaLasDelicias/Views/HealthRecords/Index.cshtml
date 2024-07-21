@@ -4,6 +4,7 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+    <button id="downloadXls" class="btn btn-success">Descargar Reporte</button>
 </p>
 
 <table class="table">
@@ -28,7 +29,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.HealthStatus)
                 </td>
-            
+
                 <td>
                     <a asp-action="Details" asp-route-id="@item.HealthRecordId" class="btn btn-info">Detalles</a>
                     <a asp-action="Edit" asp-route-id="@item.HealthRecordId" class="btn btn-warning">Editar</a>
@@ -38,3 +39,96 @@
         }
     </tbody>
 </table>
+
+<canvas id="healthStatusChart"></canvas>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.querySelector('table');
+            const tableBody = document.querySelector('tbody');
+            const ctx = document.getElementById('healthStatusChart').getContext('2d');
+
+            const healthStatusCounts = {
+                'Tratamiento': 0,
+                'Saludable': 0,
+                'Enfermo': 0
+            };
+            const healthStatusColors = {
+                'Tratamiento': 'orange',
+                'Saludable': 'green',
+                'Enfermo': 'red'
+            };
+
+            // Función para actualizar los datos del gráfico
+            const updateChartData = () => {
+                healthStatusCounts['Tratamiento'] = 0;
+                healthStatusCounts['Saludable'] = 0;
+                healthStatusCounts['Enfermo'] = 0;
+
+                Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+                    const healthStatus = row.cells[1].textContent.trim();
+                    if (healthStatus in healthStatusCounts) {
+                        healthStatusCounts[healthStatus]++;
+                    }
+                });
+
+                const labels = Object.keys(healthStatusCounts);
+                const data = Object.values(healthStatusCounts);
+                const backgroundColors = labels.map(label => healthStatusColors[label]);
+
+                healthStatusChart.data.labels = labels;
+                healthStatusChart.data.datasets[0].data = data;
+                healthStatusChart.data.datasets[0].backgroundColor = backgroundColors;
+                healthStatusChart.update();
+            };
+
+            // Crear el gráfico inicial
+            const healthStatusChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Estados de Salud',
+                        data: [],
+                        backgroundColor: [],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    const label = tooltipItem.label || '';
+                                    const value = tooltipItem.raw || 0;
+                                    return `${label}: ${value} vacas`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Observador para detectar cambios en la tabla
+            const observer = new MutationObserver(updateChartData);
+            observer.observe(tableBody, { childList: true, subtree: true });
+
+            // Inicializar los datos del gráfico
+            updateChartData();
+
+            // Exportar a XLS
+            document.getElementById('downloadXls').addEventListener('click', function () {
+                const wb = XLSX.utils.table_to_book(table, { sheet: "Health Records" });
+                XLSX.writeFile(wb, 'HealthRecords.xlsx');
+            });
+        });
+    </script>
+
