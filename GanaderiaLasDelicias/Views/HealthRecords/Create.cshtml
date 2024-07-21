@@ -1,5 +1,10 @@
 ﻿@model GanaderiaLasDelicias.Models.HealthRecord
 
+@{
+    ViewData["Title"] = "Crear Registro de Salud";
+    var healthStatusList = new List<string> { "Tratamiento", "Enfermo", "Saludable" };
+}
+
 <h2>Crear Registro de Salud</h2>
 
 <form asp-action="Create">
@@ -13,7 +18,12 @@
 
     <div class="form-group">
         <label asp-for="HealthStatus" class="control-label">Estado de Salud</label>
-        <input asp-for="HealthStatus" class="form-control" />
+        <select asp-for="HealthStatus" class="form-control">
+            @foreach (var status in healthStatusList)
+            {
+                <option value="@status">@status</option>
+            }
+        </select>
         <span asp-validation-for="HealthStatus" class="text-danger"></span>
     </div>
 
@@ -69,3 +79,4 @@
         <input type="submit" value="Crear" class="btn btn-primary" />
     </div>
 </form>
+
