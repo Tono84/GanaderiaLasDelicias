@@ -4,7 +4,9 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+    <a href="javascript:void(0);" id="downloadXls" class="btn btn-success">Exportar a XLS</a>
 </p>
+
 
 <table class="table">
     <thead>
@@ -38,3 +40,99 @@
         }
     </tbody>
 </table>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Distribución de Estados de Salud</h3>
+    </div>
+    <div class="card-body">
+        <canvas id="healthStatusChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.querySelector('table');
+        const tableBody = document.querySelector('tbody');
+        const ctx = document.getElementById('healthStatusChart').getContext('2d');
+
+        const healthStatusCounts = {};
+        const healthStatusColors = {
+            'Tratamiento': 'orange',
+            'Activo': 'green',
+            'Inactivo': 'red'
+        };
+
+        // Función para actualizar los datos del gráfico
+        const updateChartData = () => {
+            healthStatusCounts['Tratamiento'] = 0;
+            healthStatusCounts['Activo'] = 0;
+            healthStatusCounts['Inactivo'] = 0;
+
+            Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+                const healthStatus = row.cells[1].textContent.trim();
+                if (healthStatus in healthStatusCounts) {
+                    healthStatusCounts[healthStatus]++;
+                } else {
+                    healthStatusCounts[healthStatus] = 1;
+                }
+            });
+
+            const labels = Object.keys(healthStatusCounts);
+            const data = Object.values(healthStatusCounts);
+            const backgroundColors = labels.map(label => healthStatusColors[label]);
+
+            healthStatusChart.data.labels = labels;
+            healthStatusChart.data.datasets[0].data = data;
+            healthStatusChart.data.datasets[0].backgroundColor = backgroundColors;
+            healthStatusChart.update();
+        };
+
+        // Crear el gráfico inicial
+        const healthStatusChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Estados de Salud',
+                    data: [],
+                    backgroundColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value} vacas`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Observador para detectar cambios en la tabla
+        const observer = new MutationObserver(updateChartData);
+        observer.observe(tableBody, { childList: true, subtree: true });
+
+        // Inicializar los datos del gráfico
+        updateChartData();
+
+        // Exportar a XLS
+        document.getElementById('downloadXls').addEventListener('click', function () {
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Health Records" });
+            XLSX.writeFile(wb, 'HealthRecords.xlsx');
+        });
+    });
+</script>
