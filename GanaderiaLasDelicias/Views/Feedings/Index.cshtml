@@ -3,8 +3,10 @@
 <h2>Índice</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a> 
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+    <a href="javascript:void(0);" id="downloadXls" class="btn btn-success">Exportar a XLS</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -12,15 +14,15 @@
                 Nombre de la Vaca
             </th>
             <th>
-                Suplemento Consumido 
+                Suplemento Consumido
             </th>
             <th>
-                Horas de Pastoreo 
+                Horas de Pastoreo
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="herdTableBody">
         @foreach (var item in Model)
         {
             <tr>
@@ -34,11 +36,118 @@
                     @Html.DisplayFor(modelItem => item.GrazingHours)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.FeedingId" class="btn btn-info">Detalles</a> | <!-- Mejora del botón Detalles -->
-                    <a asp-action="Edit" asp-route-id="@item.FeedingId" class="btn btn-warning">Editar</a> | <!-- Mejora del botón Editar -->
-                    <a asp-action="Delete" asp-route-id="@item.FeedingId" class="btn btn-danger">Eliminar</a> <!-- Mejora del botón Eliminar -->
+                    <a asp-action="Details" asp-route-id="@item.FeedingId" class="btn btn-info">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@item.FeedingId" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.FeedingId" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Horas de Pastoreo</h3>
+    </div>
+    <div class="card-body">
+        <canvas id="grazingChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.getElementById('downloadXls').addEventListener('click', function () {
+        const table = document.querySelector('table');
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Feeding Data" });
+        XLSX.writeFile(wb, 'FeedingData.xlsx');
+    });
+</script>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const table = document.querySelector('table');
+        const tableBody = document.getElementById('herdTableBody');
+        const ctx = document.getElementById('grazingChart').getContext('2d');
+
+        const cowNames = [];
+        const grazingHours = [];
+
+        // Función para actualizar los datos del gráfico
+        const updateChartData = () => {
+            cowNames.length = 0;
+            grazingHours.length = 0;
+
+            Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                cowNames.push(cells[0].textContent.trim());
+                grazingHours.push(parseFloat(cells[2].textContent.trim()));
+            });
+
+            grazingChart.data.labels = cowNames;
+            grazingChart.data.datasets[0].data = grazingHours;
+            grazingChart.update();
+        };
+
+        // Crear el gráfico inicial
+        const grazingChart = new Chart(ctx, {
+            type: 'line',  // Cambiar a gráfico de líneas
+            data: {
+                labels: cowNames,
+                datasets: [{
+                    label: 'Horas de Pastoreo',
+                    data: grazingHours,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false  // Para que no se llene el área bajo la línea
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return `${tooltipItem.label}: ${tooltipItem.raw} horas`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Observador para detectar cambios en la tabla
+        const observer = new MutationObserver(updateChartData);
+        observer.observe(tableBody, { childList: true, subtree: true });
+
+        // Inicializar los datos del gráfico
+        updateChartData();
+
+        // Exportar a XLS
+        document.getElementById('downloadXls').addEventListener('click', function () {
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Feeding Data" });
+            XLSX.writeFile(wb, 'FeedingData.xlsx');
+        });
+    });
+</script>
+
+
+
+
+
+
