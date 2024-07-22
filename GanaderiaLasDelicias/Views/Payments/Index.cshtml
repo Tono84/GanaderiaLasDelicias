@@ -1,0 +1,51 @@
+﻿@model IEnumerable<GanaderiaLasDelicias.Models.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Registrar Pago</a>
+
+</p>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Pagos realizados</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="card-body; table-responsive; p-0;">
+        <table class="table table-hover text-nowrap">
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ccss)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tax)
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@item.PayId" class="btn btn-success">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.PayId" class="btn btn-info">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.PayId" class="btn btn-danger">Desactivar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
