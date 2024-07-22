@@ -1,72 +1,52 @@
 ﻿@model IEnumerable<GanaderiaLasDelicias.Models.Herd>
-
 @{
     ViewData["Title"] = "Index";
 }
 
 <p>
     <a asp-action="Create" class="btn btn-block bg-gradient-primary">Registrar Vaca</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Reporte de Vacas</button>
 </p>
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Lista de Vacas</h3>
         <div class="card-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
+                <input type="text" id="searchInput" class="form-control float-right" placeholder="Buscar">
+            </div>
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <select id="statusFilter" class="form-control float-right">
+                    <option value="">Todos los estados</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="En tratamiento">En tratamiento</option>
+                </select>
             </div>
         </div>
     </div>
-    <div style="card-body; table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Race)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Weight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Race)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" id="herdTable">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Number)</th>
+                    <th>@Html.DisplayNameFor(model => model.Race)</th>
+                    <th>@Html.DisplayNameFor(model => model.Age)</th>
+                    <th>@Html.DisplayNameFor(model => model.Weight)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th class="actions-column"></th>
+                </tr>
+            </thead>
+            <tbody id="herdTableBody">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Number)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Race)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Age)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Weight)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td>
                             <div class="btn-group">
                                 <a asp-action="Edit" asp-route-id="@item.CowId" class="btn btn-success">Editar</a>
@@ -80,3 +60,149 @@
         </table>
     </div>
 </div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Gráfico del Estado de las Vacas</h3>
+    </div>
+    <div class="card-body">
+        <canvas id="statusChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const tableBody = document.getElementById('herdTableBody');
+        const generateExcelButton = document.getElementById('generateExcel');
+
+        function filterTable() {
+            const searchValue = searchInput.value.toLowerCase();
+            const statusValue = statusFilter.value.toLowerCase();
+
+            Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                const name = cells[0].textContent.toLowerCase();
+                const number = cells[1].textContent.toLowerCase();
+                const status = cells[5].textContent.toLowerCase();
+
+                const matchesSearch = name.includes(searchValue) || number.includes(searchValue);
+                const matchesStatus = !statusValue || status.includes(statusValue);
+
+                if (matchesSearch && matchesStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function generateExcel() {
+            // Clona la tabla
+            const table = document.getElementById('herdTable').cloneNode(true);
+            const headers = table.querySelectorAll('thead th');
+            const rows = table.querySelectorAll('tbody tr');
+
+            // Oculta la última columna de encabezado y la de cada fila (acciones)
+            headers[headers.length - 1].style.display = 'none';
+            rows.forEach(row => {
+                row.querySelector('td:last-child').style.display = 'none';
+            });
+
+            // Convierte la tabla clonada a un archivo Excel
+            const ws = XLSX.utils.table_to_sheet(table);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Reporte de Vacas");
+            XLSX.writeFile(wb, "reporte_de_vacas.xlsx");
+        }
+
+        searchInput.addEventListener('input', filterTable);
+        statusFilter.addEventListener('change', filterTable);
+        generateExcelButton.addEventListener('click', generateExcel);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctx = document.getElementById('statusChart').getContext('2d');
+        const tableBody = document.getElementById('herdTableBody');
+
+        // Contadores para cada estado
+        const statusCounts = {
+            'Activo': 0,
+            'Inactivo': 0,
+            'En tratamiento': 0
+        };
+
+        // Contar cada estado en la tabla
+        Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+            const cells = row.getElementsByTagName('td');
+            const status = cells[5].textContent.trim(); // Asegúrate de que el índice es correcto
+
+            if (statusCounts.hasOwnProperty(status)) {
+                statusCounts[status]++;
+            }
+        });
+
+        // Preparar datos para el gráfico
+        const data = {
+            labels: Object.keys(statusCounts),
+            datasets: [{
+                label: 'Número de Vacas por Estado',
+                data: Object.values(statusCounts),
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)', // Naranja para 'En tratamiento'
+                    'rgba(54, 162, 235, 0.2)', // Verde para 'Activo'
+                    'rgba(255, 99, 132, 0.2)'  // Rojo para 'Inactivo'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)', // Naranja para 'En tratamiento'
+                    'rgba(54, 162, 235, 1)', // Verde para 'Activo'
+                    'rgba(255, 99, 132, 1)'  // Rojo para 'Inactivo'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Crear el gráfico de tipo pie
+        new Chart(ctx, {
+            type: 'pie', // Tipo de gráfico: pie
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value} vacas`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const total = context.chart._metasets[0].total;
+                            return `${value} (${Math.round((value / total) * 100)}%)`;
+                        },
+                        color: '#fff'
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+
+
+

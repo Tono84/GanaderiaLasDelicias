@@ -1,0 +1,71 @@
+﻿@model GanaderiaLasDelicias.Models.Milking
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Milking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MilkingId" />
+            <div class="form-group">
+                <label asp-for="CowId" class="control-label"></label>
+                <select asp-for="CowId" class="form-control" asp-items="ViewBag.CowId"></select>
+                <span asp-validation-for="CowId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MilkingDate" class="control-label"></label>
+                <input asp-for="MilkingDate" class="form-control" />
+                <span asp-validation-for="MilkingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MilkingTime" class="control-label"></label>
+                <input asp-for="MilkingTime" class="form-control" />
+                <span asp-validation-for="MilkingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MilkVolume" class="control-label"></label>
+                <input asp-for="MilkVolume" class="form-control" />
+                <span asp-validation-for="MilkVolume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FatContent" class="control-label"></label>
+                <input asp-for="FatContent" class="form-control" />
+                <span asp-validation-for="FatContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProteinContent" class="control-label"></label>
+                <input asp-for="ProteinContent" class="form-control" />
+                <span asp-validation-for="ProteinContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LactoseContent" class="control-label"></label>
+                <input asp-for="LactoseContent" class="form-control" />
+                <span asp-validation-for="LactoseContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SomaticCellCount" class="control-label"></label>
+                <input asp-for="SomaticCellCount" class="form-control" />
+                <span asp-validation-for="SomaticCellCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MilkerId" class="control-label"></label>
+                <select asp-for="MilkerId" class="form-control" asp-items="ViewBag.MilkerId"></select>
+                <span asp-validation-for="MilkerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

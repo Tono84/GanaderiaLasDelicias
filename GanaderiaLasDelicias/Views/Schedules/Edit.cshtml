@@ -1,0 +1,56 @@
+﻿@model GanaderiaLasDelicias.Models.Schedule
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Schedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ScheduleId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShiftType" class="control-label"></label>
+                <input asp-for="ShiftType" class="form-control" />
+                <span asp-validation-for="ShiftType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkDays" class="control-label"></label>
+                <input asp-for="WorkDays" class="form-control" />
+                <span asp-validation-for="WorkDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OffDays" class="control-label"></label>
+                <input asp-for="OffDays" class="form-control" />
+                <span asp-validation-for="OffDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkHours" class="control-label"></label>
+                <input asp-for="WorkHours" class="form-control" />
+                <span asp-validation-for="WorkHours" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

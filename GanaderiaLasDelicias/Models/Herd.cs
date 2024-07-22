@@ -13,6 +13,8 @@ namespace GanaderiaLasDelicias.Models
             Milkings = new HashSet<Milking>();
             Nutritions = new HashSet<Nutrition>();
             Pregnancies = new HashSet<Pregnancy>();
+            ReprodPregnancies = new HashSet<ReprodPregnancy>();
+            Inseminations = new HashSet<Insemination>();
         }
 
         public int CowId { get; set; }
@@ -29,5 +31,7 @@ namespace GanaderiaLasDelicias.Models
         public virtual ICollection<Milking> Milkings { get; set; }
         public virtual ICollection<Nutrition> Nutritions { get; set; }
         public virtual ICollection<Pregnancy> Pregnancies { get; set; }
+        public virtual ICollection<ReprodPregnancy> ReprodPregnancies { get; set; }
+        public virtual ICollection<Insemination> Inseminations { get; set; }
     }
 }

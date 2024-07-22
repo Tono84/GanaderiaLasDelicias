@@ -9,7 +9,9 @@ namespace GanaderiaLasDelicias.Models
         public Bull()
         {
             Pregnancies = new HashSet<Pregnancy>();
-        }
+            Inseminations = new HashSet<Insemination>();
+           
+    }
 
         [Key]
         public int BullId { get; set; }
@@ -36,5 +38,6 @@ namespace GanaderiaLasDelicias.Models
         public int? PregnantCows { get; set; }
 
         public virtual ICollection<Pregnancy> Pregnancies { get; set; }
+        public virtual ICollection<Insemination> Inseminations { get; set; }
     }
 }

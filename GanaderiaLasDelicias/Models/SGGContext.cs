@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using GanaderiaLasDelicias.Models;
 
 namespace GanaderiaLasDelicias.Models
 {
@@ -37,6 +38,12 @@ namespace GanaderiaLasDelicias.Models
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Pregnancy> Pregnancies { get; set; } = null!;
         public virtual DbSet<Treatment> Treatments { get; set; } = null!;
+
+        public virtual DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ReprodPregnancy> ReprodPregnancies { get; set; }
+
+        public DbSet<Insemination> Inseminations { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -429,9 +436,65 @@ namespace GanaderiaLasDelicias.Models
                 entity.Property(e => e.MedName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Schedule>(entity =>
+            {
+                entity.ToTable("Schedule");
+
+                entity.Property(e => e.Name).HasMaxLength(100).IsRequired();
+
+                entity.Property(e => e.WorkDays).HasMaxLength(50).IsRequired();
+
+                entity.Property(e => e.OffDays).HasMaxLength(50).IsRequired();
+
+                entity.Property(e => e.WorkHours).HasMaxLength(50).IsRequired();
+
+                entity.Property(e => e.ShiftType).IsRequired();
+
+                entity.Property(e => e.IsActive).IsRequired();
+            });
+
+            modelBuilder.Entity<ReprodPregnancy>(entity =>
+            {
+                entity.ToTable("ReprodPregnancy");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.ReprodPregnancies)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ReprodPregnancy_CowId");
+            });
+
+            modelBuilder.Entity<Insemination>(entity =>
+            {
+                entity.ToTable("Insemination");
+
+                entity.HasOne(d => d.Cow)
+                    .WithMany(p => p.Inseminations)
+                    .HasForeignKey(d => d.CowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Insemination_CowId");
+
+                entity.HasOne(d => d.Bull)
+                    .WithMany(p => p.Inseminations)
+                    .HasForeignKey(d => d.BullId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Insemination_BullId");
+            });
+
+
             OnModelCreatingPartial(modelBuilder);
         }
 
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+        public DbSet<GanaderiaLasDelicias.Models.Salary>? Salary { get; set; }
     }
 }

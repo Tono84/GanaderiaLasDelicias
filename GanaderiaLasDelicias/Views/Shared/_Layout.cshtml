@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -236,6 +239,20 @@
                                         <p>Usuarios</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a asp-controller="Schedules" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Horarios</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-controller="Salaries" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Salarios</p>
+                                    </a>
+                                </li>
                                 @* <li class="nav-item">
                                     <a href="pages/layout/fixed-sidebar.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -312,6 +329,25 @@
                                     <a asp-controller="Feedings" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nutrición</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-controller="Milkings" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Registro de Ordeño</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="ReprodPregnancy" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reporte de embarazos</p>
+                                    </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a asp-controller="Insemination" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reporte de inseminaciones</p>
                                     </a>
                                 </li>
                                 @* <li class="nav-item">
