@@ -121,6 +121,150 @@
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
+        <!-- Nueva sección para el iframe -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Gráfico del Estado de las Vacas</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="statusChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const ctx = document.getElementById('statusChart').getContext('2d');
+
+                // Datos quemados para los estados
+                const statusCounts = {
+                    'Activo': 5,
+                    'Inactivo': 1,
+                    'En tratamiento': 2
+                };
+
+                // Preparar datos para el gráfico
+                const data = {
+                    labels: Object.keys(statusCounts),
+                    datasets: [{
+                        label: 'Número de Vacas por Estado',
+                        data: Object.values(statusCounts),
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)', // Verde para 'Activo'
+                            'rgba(255, 99, 132, 0.2)', // Rojo para 'Inactivo'
+                            'rgba(255, 206, 86, 0.2)'  // Amarillo para 'En tratamiento'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)', // Verde para 'Activo'
+                            'rgba(255, 99, 132, 1)', // Rojo para 'Inactivo'
+                            'rgba(255, 206, 86, 1)'  // Amarillo para 'En tratamiento'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                //Salud
+
+                // Crear el gráfico de tipo pie
+                new Chart(ctx, {
+                    type: 'pie', // Tipo de gráfico: pie
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        const label = tooltipItem.label || '';
+                                        const value = tooltipItem.raw || 0;
+                                        return `${label}: ${value} vacas`;
+                                    }
+                                }
+                            },
+                            datalabels: {
+                                formatter: (value, context) => {
+                                    const total = context.chart._metasets[0].total;
+                                    return `${value} (${Math.round((value / total) * 100)}%)`;
+                                },
+                                color: '#fff'
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+        <!-- Salud -->
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Horas de Pastoreo por Vaca</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="grazingChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const ctx = document.getElementById('grazingChart').getContext('2d');
+
+                // Datos de ejemplo para las vacas y las horas de pastoreo
+                const cowNames = ['Vaca 1', 'Vaca 2', 'Vaca 3', 'Vaca 4'];
+                const grazingHours = [5, 8, 6, 7];  // Horas de pastoreo correspondientes
+
+                // Crear el gráfico de líneas
+                const grazingChart = new Chart(ctx, {
+                    type: 'line',  // Tipo de gráfico: línea
+                    data: {
+                        labels: cowNames,
+                        datasets: [{
+                            label: 'Horas de Pastoreo',
+                            data: grazingHours,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Color de fondo del área bajo la línea
+                            borderColor: 'rgba(54, 162, 235, 1)',  // Color de la línea
+                            borderWidth: 1,
+                            fill: false  // No llenar el área bajo la línea
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Horas'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Nombre de la Vaca'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return `${tooltipItem.label}: ${tooltipItem.raw} horas`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <!-- CARd -->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -152,6 +296,7 @@
               </div><!-- /.card-body -->
             </div>
             <!-- /.card -->
+
 
             <!-- DIRECT CHAT -->
             <div class="card direct-chat direct-chat-primary">
