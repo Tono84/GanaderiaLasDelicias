@@ -158,5 +158,16 @@ namespace GanaderiaLasDelicias.Controllers
         {
           return (_context.Herds?.Any(e => e.CowId == id)).GetValueOrDefault();
         }
+
+        // GET: Herd/Chart
+        public async Task<IActionResult> Chart()
+        {
+            // Obtén los datos de la base de datos
+            var herds = await _context.Herds.ToListAsync();
+
+            // Pasa los datos a la vista
+            return View(herds);
+        }
+
     }
 }

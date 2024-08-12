@@ -1,20 +1,21 @@
 ﻿@model IEnumerable<GanaderiaLasDelicias.Models.Herd>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Índice de Vacas";
 }
 
 <p>
     <a asp-action="Create" class="btn btn-block bg-gradient-primary">Registrar Vaca</a>
     <button id="generateExcel" class="btn btn-block bg-gradient-success">Reporte de Vacas</button>
 </p>
+
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Lista de Vacas</h3>
         <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-                <input type="text" id="searchInput" class="form-control float-right" placeholder="Buscar">
+            <div class="input-group input-group-sm" style="width: 200px; margin-right: 10px;">
+                <input type="text" id="searchInput" class="form-control float-right" placeholder="Buscar por nombre o número">
             </div>
-            <div class="input-group input-group-sm" style="width: 150px;">
+            <div class="input-group input-group-sm" style="width: 200px;">
                 <select id="statusFilter" class="form-control float-right">
                     <option value="">Todos los estados</option>
                     <option value="Activo">Activo</option>
@@ -28,13 +29,13 @@
         <table class="table table-hover text-nowrap" id="herdTable">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Number)</th>
-                    <th>@Html.DisplayNameFor(model => model.Race)</th>
-                    <th>@Html.DisplayNameFor(model => model.Age)</th>
-                    <th>@Html.DisplayNameFor(model => model.Weight)</th>
-                    <th>@Html.DisplayNameFor(model => model.Status)</th>
-                    <th class="actions-column"></th>
+                    <th>Nombre</th>
+                    <th>Número</th>
+                    <th>Raza</th>
+                    <th>Edad</th>
+                    <th>Peso</th>
+                    <th>Estado</th>
+                    <th class="actions-column">Acciones</th>
                 </tr>
             </thead>
             <tbody id="herdTableBody">
@@ -49,9 +50,9 @@
                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td>
                             <div class="btn-group">
-                                <a asp-action="Edit" asp-route-id="@item.CowId" class="btn btn-success">Editar</a>
-                                <a asp-action="Details" asp-route-id="@item.CowId" class="btn btn-info">Detalles</a>
-                                <a asp-action="Delete" asp-route-id="@item.CowId" class="btn btn-danger">Desactivar</a>
+                                <a asp-action="Edit" asp-route-id="@item.CowId" class="btn btn-success btn-sm">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.CowId" class="btn btn-info btn-sm">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.CowId" class="btn btn-danger btn-sm">Desactivar</a>
                             </div>
                         </td>
                     </tr>
@@ -60,6 +61,7 @@
         </table>
     </div>
 </div>
+
 
 <div class="card">
     <div class="card-header">

@@ -6,6 +6,7 @@
 
 <p>
     <a asp-action="Create" class="btn btn-block bg-gradient-primary">Registrar Empleado</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Generar Reporte de Excel</button>
 
 </p>
 <div class="card">
@@ -23,7 +24,7 @@
         </div>
     </div>
     <div style="card-body; table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table class="table table-hover text-nowrap" id="employeeTable">
             <thead>
         <tr>
             <th>
@@ -75,3 +76,16 @@
 </table>
     </div>
 </div>
+
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('employeeTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Empleados" });
+            XLSX.writeFile(wb, 'Empleados.xlsx');
+        });
+    });
+</script>
