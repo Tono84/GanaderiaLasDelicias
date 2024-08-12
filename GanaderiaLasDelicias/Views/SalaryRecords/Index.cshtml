@@ -1,0 +1,50 @@
+﻿@model GanaderiaLasDelicias.Models.ViewModel.SalaryRecordViewModel
+
+@{
+    ViewData["Title"] = "Registros de Salario";
+}
+
+<h1>Registros de Salario</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Ingresar salario de empleado</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="selectedEmployeeId">Empleado</label>
+        <select name="selectedEmployeeId" class="form-control">
+            <option value="">Seleccione un empleado</option>
+            @foreach (var employee in Model.Employees)
+            {
+                <option value="@employee.Value">@employee.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+@if (Model.EmployeePaymentsCount != null && Model.EmployeePaymentsCount.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Cantidad de Pagos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.EmployeePaymentsCount)
+            {
+                <tr>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.PaymentsCount</td>
+                    <td>
+                        <a asp-action="Details" asp-route-employeeId="@Model.SalaryRecords.FirstOrDefault(s => s.Employee.Name == item.EmployeeName)?.EmployeeId" class="btn btn-info">Ver Detalles</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -9,6 +9,7 @@ namespace GanaderiaLasDelicias.Models
         {
             EmployeePayments = new HashSet<EmployeePayment>();
             Milkings = new HashSet<Milking>();
+            SalaryRecords = new HashSet<SalaryRecord>();
         }
 
         public int EmployeeId { get; set; }
@@ -24,5 +25,6 @@ namespace GanaderiaLasDelicias.Models
         public virtual AspNetUser? AspNetUser { get; set; }
         public virtual ICollection<EmployeePayment> EmployeePayments { get; set; }
         public virtual ICollection<Milking> Milkings { get; set; }
+        public virtual ICollection<SalaryRecord> SalaryRecords { get; set; }
     }
 }

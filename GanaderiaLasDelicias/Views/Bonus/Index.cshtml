@@ -1,0 +1,20 @@
+﻿@model GanaderiaLasDelicias.Models.Bonus
+
+<h2>Calcular Aguinaldo</h2>
+
+<form asp-action="Index" method="post">
+    @for (int i = 0; i < 13; i++)
+    {
+        <div class="form-group">
+            <label for="Salarios_@i">Salario @i:</label>
+            <input type="number" asp-for="Salarios[@i]" class="form-control" />
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Calcular</button>
+</form>
+
+@if (Model.Resultado != 0)
+{
+    <h3>Resultado: @Model.Resultado</h3>
+}
+

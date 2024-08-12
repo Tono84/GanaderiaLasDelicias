@@ -1,0 +1,59 @@
+﻿@model GanaderiaLasDelicias.Models.ViewModel.SalaryRecordDetailsViewModel
+
+@{
+    ViewData["Title"] = "Detalles de Pagos de Salario";
+    var employeeId = ViewContext.HttpContext.Request.Query["employeeId"];
+}
+
+<h1>Detalles de Pagos de Salario para @Model.EmployeeName</h1>
+
+<form asp-action="Details" method="get">
+    <input type="hidden" name="employeeId" value="@employeeId" />
+    <div class="form-group">
+        <label for="year">Año</label>
+        <select name="year" class="form-control">
+            <option value="">Seleccione un año</option>
+            @foreach (var year in Model.Years)
+            {
+                <option value="@year">@year</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+<br />
+
+@if (!Model.SalaryRecords.Any())
+{
+    <div class="alert alert-info" role="alert">
+        No hay registros para el año seleccionado.
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha de Pago</th>
+                <th>Monto</th>
+                <th>Tipo de Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.SalaryRecords)
+            {
+                <tr>
+                    <td>@item.PaymentDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Amount</td>
+                    <td>@item.PaymentType</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<p>
+    <a asp-action="Index" class="btn btn-success">Regresar</a>
+</p>
