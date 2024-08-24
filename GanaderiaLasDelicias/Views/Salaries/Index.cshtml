@@ -12,7 +12,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID Empleado</th>
+            <th>Empleado</th>
             <th>Salario Bruto</th>
             <th>Deducciones</th>
             <th>Salario Neto</th>
@@ -25,7 +25,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.EmployeeId)</td>
+                <td>@Html.DisplayFor(modelItem => item.Employee.Name)</td>
                 <td>@Html.DisplayFor(modelItem => item.GrossSalary)</td>
                 <td>@Html.DisplayFor(modelItem => item.Deductions)</td>
                 <td>@Html.DisplayFor(modelItem => item.NetSalary)</td>

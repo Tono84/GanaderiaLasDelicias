@@ -21,9 +21,10 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Salaries
         public async Task<IActionResult> Index()
         {
-              return _context.Salary != null ? 
-                          View(await _context.Salary.ToListAsync()) :
-                          Problem("Entity set 'SGGContext.Salary'  is null.");
+            var salaries = await _context.Salary
+                                         .Include(s => s.Employee) // Include Employee data
+                                         .ToListAsync();
+            return View(salaries);
         }
 
         // GET: Salaries/Details/5
@@ -35,6 +36,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var salary = await _context.Salary
+                                .Include(s => s.Employee) // Include Employee data
                 .FirstOrDefaultAsync(m => m.SalaryId == id);
             if (salary == null)
             {
@@ -45,8 +47,10 @@ namespace GanaderiaLasDelicias.Controllers
         }
 
         // GET: Salaries/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            // Obtener todos los empleados de la base de datos
+            ViewBag.Employees = new SelectList(await _context.Employees.ToListAsync(), "EmployeeId", "Name"); // FullName es el nombre completo del empleado
             return View();
         }
 
@@ -63,6 +67,7 @@ namespace GanaderiaLasDelicias.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Employees = new SelectList(await _context.Employees.ToListAsync(), "EmployeeId", "Name");
             return View(salary);
         }
 
@@ -74,11 +79,19 @@ namespace GanaderiaLasDelicias.Controllers
                 return NotFound();
             }
 
-            var salary = await _context.Salary.FindAsync(id);
+            var salary = await _context.Salary
+                                .Include(s => s.Employee) // Include Employee data
+                                .FirstOrDefaultAsync(s => s.SalaryId == id);
             if (salary == null)
             {
                 return NotFound();
             }
+            // Obtener la lista de empleados
+            var employees = await _context.Employees.ToListAsync();
+
+            // Crear la lista desplegable y preseleccionar el empleado actual
+            ViewBag.Employees = new SelectList(employees, "EmployeeId", "FullName", salary.EmployeeId);
+
             return View(salary);
         }
 
@@ -114,6 +127,7 @@ namespace GanaderiaLasDelicias.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Employees = new SelectList(await _context.Employees.ToListAsync(), "EmployeeId", "Name", salary.EmployeeId);
             return View(salary);
         }
 
@@ -125,7 +139,7 @@ namespace GanaderiaLasDelicias.Controllers
                 return NotFound();
             }
 
-            var salary = await _context.Salary
+            var salary = await _context.Salary.Include(s => s.Employee)
                 .FirstOrDefaultAsync(m => m.SalaryId == id);
             if (salary == null)
             {
@@ -144,7 +158,8 @@ namespace GanaderiaLasDelicias.Controllers
             {
                 return Problem("Entity set 'SGGContext.Salary'  is null.");
             }
-            var salary = await _context.Salary.FindAsync(id);
+            var salary = await _context.Salary.Include(s => s.Employee) // Include Employee data
+                .FirstOrDefaultAsync(s => s.SalaryId == id); ;
             if (salary != null)
             {
                 _context.Salary.Remove(salary);
