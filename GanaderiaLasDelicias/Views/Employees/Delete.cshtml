@@ -47,18 +47,8 @@
             @Html.DisplayNameFor(model => model.ScheduleId)
         </dt>
                 <dd class="col-sm-10">
-                    @if (Model.ScheduleId == 1)
-                    {
-                        <span>Diurno</span>
-                    }
-                    else if (Model.ScheduleId == 2)
-                    {
-                        <span>Nocturno</span>
-                    }
-                    else
-                    {
-                        <span>Desconocido</span>
-                    }
+                    @Html.DisplayFor(model => model.schedule.Name)
+                </dd>
                 </dd>
 @*         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AspNetUser)

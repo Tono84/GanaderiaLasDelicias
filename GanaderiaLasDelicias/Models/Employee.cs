@@ -44,5 +44,7 @@ namespace GanaderiaLasDelicias.Models
         public virtual ICollection<EmployeePayment> EmployeePayments { get; set; }
         public virtual ICollection<Milking> Milkings { get; set; }
         public virtual ICollection<SalaryRecord> SalaryRecords { get; set; }
+
+        public virtual Schedule? schedule { get; set; }
     }
 }
