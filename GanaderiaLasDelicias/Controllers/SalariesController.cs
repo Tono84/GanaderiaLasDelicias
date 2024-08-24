@@ -90,7 +90,7 @@ namespace GanaderiaLasDelicias.Controllers
             var employees = await _context.Employees.ToListAsync();
 
             // Crear la lista desplegable y preseleccionar el empleado actual
-            ViewBag.Employees = new SelectList(employees, "EmployeeId", "FullName", salary.EmployeeId);
+            ViewBag.Employees = new SelectList(employees, "EmployeeId", "Name", salary.EmployeeId);
 
             return View(salary);
         }
