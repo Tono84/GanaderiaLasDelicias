@@ -1,86 +1,55 @@
 ﻿@model IEnumerable<GanaderiaLasDelicias.Models.Milking>
-
 @{
-    ViewData["Title"] = "Índice";
+    ViewData["Title"] = "Índice de Ordeños";
 }
 
-<h1>Registro de Ordeño</h1>
-
 <p>
-    <a asp-action="Create" class="btn btn-primary">Crear Nuevo</a>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Crear Nuevo</a>
 </p>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    Fecha de Ordeño
-                </th>
-                <th>
-                    Hora de Ordeño
-                </th>
-                <th>
-                    Volumen de Leche
-                </th>
-                <th>
-                    Contenido de Grasa
-                </th>
-                <th>
-                    Contenido de Proteína
-                </th>
-                <th>
-                    Contenido de Lactosa
-                </th>
-                <th>
-                    Conteo de Células Somáticas
-                </th>
-                <th>
-                    ID de Vaca
-                </th>
-                <th>
-                    ID del Ordeñador
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Registro de Ordeño</h3>
+    </div>
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap" id="milkingTable">
+            <thead class="thead-dark">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MilkingDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MilkingTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MilkVolume)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FatContent)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProteinContent)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LactoseContent)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SomaticCellCount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cow.CowId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Milker.EmployeeId)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.MilkingId" class="btn btn-primary">Editar</a> |
-                        <a asp-action="Details" asp-route-id="@item.MilkingId" class="btn btn-info">Detalles</a> |
-                        <a asp-action="Delete" asp-route-id="@item.MilkingId" class="btn btn-danger">Eliminar</a>
-                    </td>
+                    <th>Fecha de Ordeño</th>
+                    <th>Hora de Ordeño</th>
+                    <th>Volumen de Leche (L)</th>
+                    <th>Contenido de Grasa (%)</th>
+                    <th>Contenido de Proteína (%)</th>
+                    <th>Contenido de Lactosa (%)</th>
+                    <th>Conteo de Células Somáticas</th>
+                    <th>ID de Vaca</th>
+                    <th>ID del Ordeñador</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.MilkingDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MilkingTime)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MilkVolume)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FatContent)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ProteinContent)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LactoseContent)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SomaticCellCount)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cow.CowId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Milker.EmployeeId)</td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@item.MilkingId" class="btn btn-success btn-sm">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.MilkingId" class="btn btn-info btn-sm">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.MilkingId" class="btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

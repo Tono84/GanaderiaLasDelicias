@@ -44,6 +44,7 @@ namespace GanaderiaLasDelicias.Models
 
         public DbSet<Insemination> Inseminations { get; set; }
 
+        public virtual DbSet<SalaryRecord> SalaryRecords { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -485,6 +486,23 @@ namespace GanaderiaLasDelicias.Models
                     .HasForeignKey(d => d.BullId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Insemination_BullId");
+            });
+
+            modelBuilder.Entity<SalaryRecord>(entity =>
+            {
+                entity.ToTable("SalaryRecord");
+
+                entity.Property(e => e.PaymentDate).HasColumnType("date");
+
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.PaymentType).HasMaxLength(50);
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.SalaryRecords)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SalaryRecord__EmployeeId");
             });
 
 
