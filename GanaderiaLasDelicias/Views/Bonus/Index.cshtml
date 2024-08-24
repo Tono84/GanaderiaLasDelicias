@@ -1,20 +1,40 @@
 ﻿@model GanaderiaLasDelicias.Models.Bonus
 
 <h2>Calcular Aguinaldo</h2>
-
-<form asp-action="Index" method="post">
+<form asp-action="Index" method="post" id="calculoAguinaldoForm">
     @for (int i = 0; i < 13; i++)
     {
         <div class="form-group">
             <label for="Salarios_@i">Salario @i:</label>
-            <input type="number" asp-for="Salarios[@i]" class="form-control" />
+            <input type="number" asp-for="Salarios[@i]" class="form-control" id="Salario_@i" />
         </div>
     }
+
     <button type="submit" class="btn btn-primary">Calcular</button>
+
+    @if (Model.Resultado != 0)
+    {
+        <div class="form-group mt-3">
+            <label for="Resultado">Resultado:</label>
+            <input type="text" asp-for="Resultado" class="form-control" id="Resultado" readonly />
+        </div>
+    }
+
+    <!-- Botón para limpiar el formulario -->
+    <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
 </form>
 
-@if (Model.Resultado != 0)
-{
-    <h3>Resultado: @Model.Resultado</h3>
-}
+<script>
+    function limpiarFormulario() {
+        // // Limpiar los campos de salarios
+        // for (let i = 0; i < 13; i++) {
+        //     document.getElementById("Salario_" + i).value = "";
+        // }
 
+        // Limpiar el campo de resultado si existe
+        var resultadoField = document.getElementById("Resultado");
+        if (resultadoField) {
+            resultadoField.value = "";
+        }
+    }
+</script>
