@@ -21,7 +21,7 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Milkings
         public async Task<IActionResult> Index()
         {
-            var sGGContext = _context.Milkings.Include(m => m.Cow).Include(m => m.Milker);
+            var sGGContext = _context.Milkings.Include(m => m.Cow).Include(m => m.Milker).Where(e => e.Milker.Status == "Activo");
             return View(await sGGContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace GanaderiaLasDelicias.Controllers
 
             var milking = await _context.Milkings
                 .Include(m => m.Cow)
-                .Include(m => m.Milker)
+                .Include(m => m.Milker).Where(e => e.Milker.Status == "Activo")
                 .FirstOrDefaultAsync(m => m.MilkingId == id);
             if (milking == null)
             {
@@ -48,8 +48,12 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Milkings/Create
         public IActionResult Create()
         {
-            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "CowId");
-            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId");
+            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name");
+            // Obtener lista de empleados activos
+            var activeEmployees = _context.Employees
+                .Where(e => e.Status == "Activo")
+                .ToList();
+            ViewData["MilkerId"] = new SelectList(activeEmployees, "EmployeeId", "Name");
             return View();
         }
 
@@ -62,12 +66,14 @@ namespace GanaderiaLasDelicias.Controllers
         {
             if (ModelState.IsValid)
             {
+                milking.MilkingTime = new TimeSpan(12, 0, 0);
+
                 _context.Add(milking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "CowId", milking.CowId);
-            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", milking.MilkerId);
+            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", milking.CowId);
+            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "Name", milking.MilkerId);
             return View(milking);
         }
 
@@ -84,8 +90,8 @@ namespace GanaderiaLasDelicias.Controllers
             {
                 return NotFound();
             }
-            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "CowId", milking.CowId);
-            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", milking.MilkerId);
+            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", milking.CowId);
+            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "Name", milking.MilkerId);
             return View(milking);
         }
 
@@ -121,8 +127,8 @@ namespace GanaderiaLasDelicias.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "CowId", milking.CowId);
-            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "EmployeeId", milking.MilkerId);
+            ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", milking.CowId);
+            ViewData["MilkerId"] = new SelectList(_context.Employees, "EmployeeId", "Name", milking.MilkerId);
             return View(milking);
         }
 
@@ -136,7 +142,7 @@ namespace GanaderiaLasDelicias.Controllers
 
             var milking = await _context.Milkings
                 .Include(m => m.Cow)
-                .Include(m => m.Milker)
+                .Include(m => m.Milker).Where(e => e.Milker.Status == "Activo")
                 .FirstOrDefaultAsync(m => m.MilkingId == id);
             if (milking == null)
             {
