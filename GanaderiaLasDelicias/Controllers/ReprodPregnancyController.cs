@@ -46,7 +46,7 @@ namespace GanaderiaLasDelicias.Controllers
         public IActionResult Create()
         {
             ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name");
-            ViewData["StatusOptions"] = new SelectList(new[] { "Completed", "Aborted" });
+            ViewData["StatusOptions"] = new SelectList(new[] { "Completado", "Abortado", "En Progreso" });
             return View();
         }
 
@@ -62,7 +62,7 @@ namespace GanaderiaLasDelicias.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", reprodPregnancy.CowId);
-            ViewData["StatusOptions"] = new SelectList(new[] { "Completed", "Aborted" }, reprodPregnancy.Status);
+            ViewData["StatusOptions"] = new SelectList(new[] { "Completado", "Abortado","En Progreso" }, reprodPregnancy.Status);
             return View(reprodPregnancy);
         }
 
@@ -80,7 +80,7 @@ namespace GanaderiaLasDelicias.Controllers
                 return NotFound();
             }
             ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", reprodPregnancy.CowId);
-            ViewData["StatusOptions"] = new SelectList(new[] { "Completed", "Aborted" }, reprodPregnancy.Status);
+            ViewData["StatusOptions"] = new SelectList(new[] { "Completado", "Abortado", "En Progreso" }, reprodPregnancy.Status);
             return View(reprodPregnancy);
         }
 
@@ -115,7 +115,7 @@ namespace GanaderiaLasDelicias.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CowId"] = new SelectList(_context.Herds, "CowId", "Name", reprodPregnancy.CowId);
-            ViewData["StatusOptions"] = new SelectList(new[] { "Completed", "Aborted" }, reprodPregnancy.Status);
+            ViewData["StatusOptions"] = new SelectList(new[] { "Completado", "Abortado", "En Progreso" }, reprodPregnancy.Status);
             return View(reprodPregnancy);
         }
 

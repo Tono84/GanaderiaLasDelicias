@@ -5,6 +5,7 @@
 
 <p>
     <a asp-action="Create" class="btn btn-block bg-gradient-primary">Crear Nuevo</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Generar Reporte de Excel</button>
 </p>
 
 <div class="card">
@@ -13,7 +14,7 @@
     </div>
     <div class="card-body table-responsive p-0">
         <table class="table table-hover text-nowrap" id="milkingTable">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th>Fecha de Ordeño</th>
                     <th>Hora de Ordeño</th>
@@ -22,8 +23,8 @@
                     <th>Contenido de Proteína (%)</th>
                     <th>Contenido de Lactosa (%)</th>
                     <th>Conteo de Células Somáticas</th>
-                    <th>ID de Vaca</th>
-                    <th>ID del Ordeñador</th>
+                    <th>Vaca</th>
+                    <th>Ordeñador</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -38,8 +39,8 @@
                         <td>@Html.DisplayFor(modelItem => item.ProteinContent)</td>
                         <td>@Html.DisplayFor(modelItem => item.LactoseContent)</td>
                         <td>@Html.DisplayFor(modelItem => item.SomaticCellCount)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Cow.CowId)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Milker.EmployeeId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cow.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Milker.Name)</td>
                         <td>
                             <div class="btn-group">
                                 <a asp-action="Edit" asp-route-id="@item.MilkingId" class="btn btn-success btn-sm">Editar</a>
@@ -53,3 +54,15 @@
         </table>
     </div>
 </div>
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('milkingTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Ordeño" });
+            XLSX.writeFile(wb, 'Ordeño.xlsx');
+        });
+    });
+</script>

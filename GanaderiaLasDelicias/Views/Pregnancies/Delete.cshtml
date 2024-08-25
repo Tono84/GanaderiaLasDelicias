@@ -9,7 +9,7 @@
         <div class="card-header">
             <h3 class="card-title">Eliminar Embarazo</h3>
         </div>
-        <div ="card-body">
+        <div class="card-body">
 
             <hr />
             <dl class="row" style="margin-left: 1%;">
@@ -37,7 +37,9 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cow.CowId)
         </dd>
+        </dl>
         </div>
+
     </div>
     <div>
         <form asp-action="Delete">
@@ -45,4 +47,5 @@
             <input type="submit" value="Desactivar" class="btn btn-danger" /> |
             <a asp-action="Index">Regresar</a>
         </form>
+    </div>
     </div>

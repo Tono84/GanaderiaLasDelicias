@@ -7,9 +7,10 @@
 <h2>Listado de Embarazos</h2>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Crear Nuevo</a>
+    <a class="btn btn-block bg-gradient-primary" asp-action="Create">Crear Nuevo</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Reporte de Embarazos</button>
 </p>
-<table class="table table-striped">
+<table class="table table-striped" id="pregnancyTable">
     <thead>
         <tr>
             <th>Vaca</th>
@@ -28,11 +29,23 @@
                 <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
                 <td>
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.ReprodPregnancyId">Editar</a> |
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ReprodPregnancyId">Detalles</a> |
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.ReprodPregnancyId">Editar</a> 
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ReprodPregnancyId">Detalles</a> 
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ReprodPregnancyId">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('pregnancyTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Embarazos" });
+            XLSX.writeFile(wb, 'Embarazos.xlsx');
+        });
+    });
+</script>

@@ -57,7 +57,8 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: SalaryRecords/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Name");
+            var activeEmployees = _context.Employees.Where(e => e.Status == "Activo").ToList();
+            ViewData["EmployeeId"] = new SelectList(activeEmployees, "EmployeeId", "Name");
             return View();
         }
 
@@ -72,7 +73,13 @@ namespace GanaderiaLasDelicias.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Name", salaryRecord.EmployeeId);
+            // Si el empleado no está activo, mostrar un error
+            ModelState.AddModelError("", "El empleado seleccionado no está activo.");
+
+            // Recargar la lista de empleados activos
+            var activeEmployees = _context.Employees.Where(e => e.Status == "Activo").ToList();
+            ViewData["EmployeeId"] = new SelectList(activeEmployees, "EmployeeId", "Name", salaryRecord.EmployeeId);
+
             return View(salaryRecord);
         }
 

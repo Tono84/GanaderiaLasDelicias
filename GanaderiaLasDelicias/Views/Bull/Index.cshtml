@@ -7,10 +7,11 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Toro</a>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Crear Nuevo Toro</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Reporte de Toros</button>
 </p>
 
-<table class="table">
+<table class="table" id="bullTable">
     <thead>
         <tr>
             <th>
@@ -71,3 +72,15 @@
         }
     </tbody>
 </table>
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('bullTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Toros" });
+            XLSX.writeFile(wb, 'Toros.xlsx');
+        });
+    });
+</script>
