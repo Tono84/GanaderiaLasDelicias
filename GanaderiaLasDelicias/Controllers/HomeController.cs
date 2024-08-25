@@ -1,6 +1,8 @@
-﻿using GanaderiaLasDelicias.Models;
+﻿using GanaderiaLasDelicias.Data;
+using GanaderiaLasDelicias.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace GanaderiaLasDelicias.Controllers
@@ -9,15 +11,24 @@ namespace GanaderiaLasDelicias.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SGGContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(SGGContext context, ILogger<HomeController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new DashboardViewModel
+            {
+                ActiveEmployeesCount = _context.Employees.Count(e => e.Status == "Activo"),
+                PaymentsCount = _context.SalaryRecords.Count(),
+                CowsCount = _context.Herds.Count(),
+                PregnantCowsCount = _context.ReprodPregnancies.Count()
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
