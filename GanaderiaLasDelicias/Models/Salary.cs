@@ -30,7 +30,7 @@ namespace GanaderiaLasDelicias.Models
         [Display(Name = "Fecha de Pago")]
         public DateTime CreatedDate { get; set; }
 
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
     }
 }
 

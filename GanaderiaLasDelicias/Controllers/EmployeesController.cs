@@ -21,7 +21,7 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var sGGContext = _context.Employees.Include(s => s.schedule).Include(e => e.AspNetUser);
+            var sGGContext = _context.Employees.Include(s => s.schedule).Include(e => e.AspNetUser).Where(e => e.Status == "Activo");
             return View(await sGGContext.ToListAsync());
         }
 

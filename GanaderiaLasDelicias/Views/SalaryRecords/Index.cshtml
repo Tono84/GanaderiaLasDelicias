@@ -1,13 +1,13 @@
 ﻿@model GanaderiaLasDelicias.Models.ViewModel.SalaryRecordViewModel
 
 @{
-    ViewData["Title"] = "Registros de Salario";
+    ViewData["Title"] = "Registro de Pagos";
 }
 
-<h1>Registros de Salario</h1>
+<h1>Registro de Pagos</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Ingresar salario de empleado</a>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Ingresar Pago</a>
 </p>
 
 <form asp-action="Index" method="get">
@@ -24,8 +24,8 @@
     <button type="submit" class="btn btn-primary">Filtrar</button>
 </form>
 
-@if (Model.EmployeePaymentsCount != null && Model.EmployeePaymentsCount.Any())
-{
+
+
     <table class="table">
         <thead>
             <tr>
@@ -47,4 +47,33 @@
             }
         </tbody>
     </table>
-}
+<h3>Lista de Pagos Realizados</h3>
+
+<div class="card">
+    <div style="card-body; table-responsive p-0">
+        <table class="table table-hover text-nowrap" id="salaryRecordsTable">
+            <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Fecha de Pago</th>
+                    <th>Monto</th>
+                    <th>Tipo de Pago</th>
+       
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.SalaryRecords)
+                {
+                    <tr>
+                        <td>@item.Employee.Name</td>
+                        <td>@item.PaymentDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Amount</td>
+                        <td>@item.PaymentType</td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
