@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GanaderiaLasDelicias.Models
 {
@@ -17,12 +18,25 @@ namespace GanaderiaLasDelicias.Models
             Inseminations = new HashSet<Insemination>();
         }
 
+        [Key]
         public int CowId { get; set; }
+
+        [Display(Name="Nombre")]
         public string Name { get; set; } = null!;
+
+        [Display(Name = "Número Asignado")]
         public int Number { get; set; }
+
+        [Display(Name = "Raza")]
         public string Race { get; set; } = null!;
+
+        [Display(Name = "Edad (Años)")]
         public int Age { get; set; }
+
+        [Display(Name = "Peso")]
         public decimal Weight { get; set; }
+
+        [Display(Name = "Estado")]
         public string Status { get; set; } = null!;
 
         public virtual ICollection<Feeding> Feedings { get; set; }

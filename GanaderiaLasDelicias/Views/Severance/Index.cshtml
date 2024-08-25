@@ -1,25 +1,35 @@
-﻿<!-- En la carpeta Views/Cesantia/Index.cshtml -->
-@model GanaderiaLasDelicias.Models.Severance;
+﻿@model GanaderiaLasDelicias.Models.Severance
 
-<h2>Calcular Cesantía</h2>
+@{
+    ViewData["Title"] = "Cálculo de Cesantía";
+}
 
-<form asp-actio6n="Calculate" method="post">
+<h2>Cálculo de Cesantía</h2>
+
+<form method="post" asp-action="Index">
     <div class="form-group">
-        <label for="YearsWorked">Años Trabajados:</label>
-        <input type="number" asp-for="YearsWorked" class="form-control" />
+        <label for="employeeId">Empleado</label>
+        <select id="employeeId" name="employeeId" class="form-control">
+            <option value="">Seleccione un empleado</option>
+            @foreach (var employee in ViewBag.Employees)
+            {
+                <option value="@employee.EmployeeId">@employee.Name</option>
+            }
+        </select>
     </div>
     <div class="form-group">
-        <label for="FinalSalary">Salario Final:</label>
-        <input type="number" step="0.01" asp-for="FinalSalary" class="form-control" />
+        <label for="workingYears">Años Trabajados</label>
+        <input type="number" class="form-control" id="workingYears" name="workingYears" min="0" step="1" />
     </div>
     <div class="form-group">
-        <label for="GaveNotice">¿Dio Preaviso?</label>
-        <input type="checkbox" asp-for="GaveNotice" class="form-check-input" />
+        <label for="salary">Salario Promedio Diario</label>
+        <input type="number" class="form-control" id="salary" name="salary" min="0" step="0.01" />
     </div>
-    <button type="submit" class="btn btn-primary">Calcular</button>
+    <button type="submit" class="btn btn-primary">Calcular Cesantía</button>
 </form>
 
-@if (Model.Cesantia != 0)
+@if (Model != null && Model.Compensation > 0)
 {
-    <h3>Cesantía: @Model.Cesantia</h3>
+    <h3>Cesantía Calculada</h3>
+    <p>Cantidad de Cesantía: @Model.Compensation.ToString("C")</p>
 }
