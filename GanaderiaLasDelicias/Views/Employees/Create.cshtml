@@ -39,12 +39,8 @@
                 <span asp-validation-for="BaseSalary" class="text-danger"></span>
             </div>
                 <div class="form-group">
-                    <label asp-for="ScheduleId" class="control-label"></label>
-                    <select asp-for="ScheduleId" class="form-control">
-                        <option value="1">Diurno</option>
-                        <option value="2">Nocturno</option>
-                    </select>
-                    <span asp-validation-for="ScheduleId" class="text-danger"></span>
+                    <label for="ScheduleId">Horario</label>
+                    <select asp-for="ScheduleId" class="form-control" asp-items="ViewBag.schedule"></select>
                 </div>
 @*             <div class="form-group">
                 <label asp-for="AspNetUserId" class="control-label"></label>

@@ -21,7 +21,7 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var sGGContext = _context.Employees.Include(e => e.AspNetUser);
+            var sGGContext = _context.Employees.Include(s => s.schedule).Include(e => e.AspNetUser).Where(e => e.Status == "Activo");
             return View(await sGGContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var employee = await _context.Employees
-                .Include(e => e.AspNetUser)
+                .Include(e => e.AspNetUser).Include(s => s.schedule)
                 .FirstOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
@@ -45,10 +45,13 @@ namespace GanaderiaLasDelicias.Controllers
         }
 
         // GET: Employees/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
+            ViewBag.Employees = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name"); 
             return View();
+
+
         }
 
         // POST: Employees/Create
@@ -63,6 +66,7 @@ namespace GanaderiaLasDelicias.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", employee.AspNetUserId);
+            ViewBag.Schedules = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name");
             return View(employee);
         }
 
@@ -74,11 +78,16 @@ namespace GanaderiaLasDelicias.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees
+                                        .Include(s => s.schedule)
+                                        .FirstOrDefaultAsync(s => s.EmployeeId == id);
             if (employee == null)
             {
                 return NotFound();
             }
+
+            var schedule = await _context.Schedules.ToListAsync();
+            ViewBag.Schedule = new SelectList(schedule, "ScheduleId", "Name", employee.ScheduleId);
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", employee.AspNetUserId);
             return View(employee);
         }
@@ -115,6 +124,7 @@ namespace GanaderiaLasDelicias.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Schedules = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name", employee.ScheduleId);
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Email", employee.AspNetUserId);
             return View(employee);
         }
@@ -128,7 +138,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             var employee = await _context.Employees
-                .Include(e => e.AspNetUser)
+                .Include(e => e.AspNetUser).Include(s => s.schedule)
                 .FirstOrDefaultAsync(m => m.EmployeeId == id);
             if (employee == null)
             {
@@ -143,7 +153,7 @@ namespace GanaderiaLasDelicias.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _context.Employees.Include(s => s.schedule).FirstOrDefaultAsync(s => s.EmployeeId == id); 
 
             if (employee == null)
             {
