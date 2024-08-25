@@ -1,14 +1,14 @@
-﻿namespace GanaderiaLasDelicias.Models
+﻿using GanaderiaLasDelicias.Controllers;
+
+namespace GanaderiaLasDelicias.Models
 {
     public class Severance
     {
-        public decimal FinalSalary {get; set;}
+        public int EmployeeId { get; set; }
+        public int WorkingYears { get; set; }
+        public decimal Salary { get; set; }
+        public decimal Compensation { get; set; }
 
-        public int YearsWorked {get; set;}
-
-        public bool GaveNotice { get; set;} 
-
-
-        public decimal Cesantia { get; set; }
+        public Employee? employees { get; set; }
     }
 }

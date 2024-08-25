@@ -7,9 +7,10 @@
 <h1>Lista de Horarios</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+    <a asp-action="Create" class="btn btn-block bg-gradient-primary">Crear Horario</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Generar Reporte de Excel</button>
 </p>
-<table class="table table-striped">
+<table class="table table-striped" id="scheduleTable">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -32,11 +33,24 @@
                 <td>@Html.DisplayFor(modelItem => item.WorkHours)</td>
                 <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ScheduleId" class="btn btn-primary">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.ScheduleId" class="btn btn-info">Detalles</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ScheduleId" class="btn btn-primary">Editar</a> 
+                    <a asp-action="Details" asp-route-id="@item.ScheduleId" class="btn btn-info">Detalles</a> 
                     <a asp-action="Delete" asp-route-id="@item.ScheduleId" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('scheduleTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Horarios" });
+            XLSX.writeFile(wb, 'Horarios.xlsx');
+        });
+    });
+</script>

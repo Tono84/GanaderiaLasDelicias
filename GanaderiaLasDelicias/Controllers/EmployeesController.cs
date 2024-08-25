@@ -47,8 +47,10 @@ namespace GanaderiaLasDelicias.Controllers
         // GET: Employees/Create
         public async Task<IActionResult> Create()
         {
+
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
-            ViewBag.Employees = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name"); 
+            ViewBag.Schedules = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name");
+
             return View();
 
 
@@ -65,8 +67,9 @@ namespace GanaderiaLasDelicias.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var schedule = await _context.Schedules.ToListAsync();
             ViewData["AspNetUserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", employee.AspNetUserId);
-            ViewBag.Schedules = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name");
+            ViewBag.Schedules = new SelectList(await _context.Schedules.ToListAsync(), "ScheduleId", "Name", employee.ScheduleId);
             return View(employee);
         }
 
