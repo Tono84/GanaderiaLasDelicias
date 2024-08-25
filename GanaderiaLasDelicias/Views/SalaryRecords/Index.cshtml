@@ -8,6 +8,7 @@
 
 <p>
     <a asp-action="Create" class="btn btn-block bg-gradient-primary">Ingresar Pago</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Generar Reporte de Excel</button>
 </p>
 
 <form asp-action="Index" method="get">
@@ -77,3 +78,15 @@
         </table>
     </div>
 </div>
+<!-- Incluir la biblioteca SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('generateExcel').addEventListener('click', () => {
+            const table = document.getElementById('salaryRecordsTable');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Pagos" });
+            XLSX.writeFile(wb, 'Pagos.xlsx');
+        });
+    });
+</script>

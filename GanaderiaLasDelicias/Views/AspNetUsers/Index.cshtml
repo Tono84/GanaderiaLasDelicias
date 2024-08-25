@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<h1>Lista de Usuarios</h1>
 <p>
-    <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Registrar Usuario</a>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-block bg-gradient-primary">Registrar Usuario</a>
+    <button id="generateExcel" class="btn btn-block bg-gradient-success">Generar Reporte de Excel</button>
 </p>
 <div class="card">
     <div class="card-header">
@@ -22,7 +23,7 @@
         </div>
     </div>
     <div style="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table class="table table-hover text-nowrap" id="usersTable">
     <thead>
         <tr>
             <th>
@@ -48,3 +49,15 @@
 }
     </tbody>
 </table>
+        <!-- Incluir la biblioteca SheetJS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('generateExcel').addEventListener('click', () => {
+                    const table = document.getElementById('usersTable');
+                    const wb = XLSX.utils.table_to_book(table, { sheet: "Usuarios" });
+                    XLSX.writeFile(wb, 'Usuarios.xlsx');
+                });
+            });
+        </script>

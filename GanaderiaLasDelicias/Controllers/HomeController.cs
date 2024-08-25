@@ -21,12 +21,26 @@ namespace GanaderiaLasDelicias.Controllers
 
         public IActionResult Index()
         {
+            var salaryRecords = _context.SalaryRecords.ToList(); // Recupera todos los registros
+
             var viewModel = new DashboardViewModel
             {
                 ActiveEmployeesCount = _context.Employees.Count(e => e.Status == "Activo"),
                 PaymentsCount = _context.SalaryRecords.Count(),
                 CowsCount = _context.Herds.Count(),
-                PregnantCowsCount = _context.ReprodPregnancies.Count()
+                PregnantCowsCount = _context.ReprodPregnancies.Count(),
+
+                // Obtener y procesar los datos del gráfico
+                PaymentData = salaryRecords
+        .GroupBy(sr => sr.PaymentDate.ToString("yyyy-MM"))
+        .Select(g => new PaymentDataDto
+        {
+            Date = g.Key,
+            TotalAmount = g.Sum(sr => sr.Amount),
+            Count = g.Count()
+        }).ToList()
+
+
             };
             return View(viewModel);
         }
