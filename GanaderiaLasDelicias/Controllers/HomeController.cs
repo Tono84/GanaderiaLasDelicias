@@ -21,14 +21,20 @@ namespace GanaderiaLasDelicias.Controllers
 
         public IActionResult Index()
         {
+            var milkings = _context.Milkings.ToList();
             var salaryRecords = _context.SalaryRecords.ToList(); // Recupera todos los registros
-
+            var healthRecords = _context.HealthRecords.ToList(); // Recupera todos los registros de salud
+            var feedings = _context.Feedings.Include(f => f.Cow).ToList(); // Obtener datos de alimentación con información de vacas
             var viewModel = new DashboardViewModel
             {
                 ActiveEmployeesCount = _context.Employees.Count(e => e.Status == "Activo"),
                 PaymentsCount = _context.SalaryRecords.Count(),
                 CowsCount = _context.Herds.Count(),
                 PregnantCowsCount = _context.ReprodPregnancies.Count(),
+                FatPercentage = milkings.Any() ? (double)(milkings.Average(m => m.FatContent ?? 0)) : 0.0,
+                ProteinPercentage = milkings.Any() ? (double)(milkings.Average(m => m.ProteinContent ?? 0)) : 0.0,
+                LactosePercentage = milkings.Any() ? (double)(milkings.Average(m => m.LactoseContent ?? 0)) : 0.0,
+
 
                 // Obtener y procesar los datos del gráfico
                 PaymentData = salaryRecords
@@ -38,7 +44,19 @@ namespace GanaderiaLasDelicias.Controllers
             Date = g.Key,
             TotalAmount = g.Sum(sr => sr.Amount),
             Count = g.Count()
-        }).ToList()
+        }).ToList(),
+                // Obtener y procesar los datos del gráfico de estado de salud
+        HealthStatusCounts = healthRecords
+            .GroupBy(hr => hr.HealthStatus)
+            .ToDictionary(g => g.Key, g => g.Count()),
+
+                FeedingData = feedings
+            .GroupBy(f => f.Cow.Name) // Agrupar por nombre de la vaca
+            .Select(g => new FeedingDataDto
+            {
+                CowName = g.Key,
+                GrazingHours = g.Sum(f => f.GrazingHours)
+            }).ToList()
 
 
             };

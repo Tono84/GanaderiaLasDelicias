@@ -72,9 +72,21 @@
         }
     </tbody>
 </table>
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Gráfico de Inseminaciones vs Preñeces</h3>
+    </div>
+    <div class="card-body">
+        <canvas id="inseminationChart" width="400" height="200"></canvas>
+    </div>
+</div>
 <!-- Incluir la biblioteca SheetJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('generateExcel').addEventListener('click', () => {
@@ -84,3 +96,73 @@
         });
     });
 </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctx = document.getElementById('inseminationChart').getContext('2d');
+        const tableBody = document.querySelector('#bullTable tbody');
+
+        // Inicializamos los contadores
+        let totalInseminatedCows = 0;
+        let totalPregnantCows = 0;
+
+        // Recorremos las filas de la tabla y sumamos las vacas inseminadas y preñadas
+        Array.from(tableBody.getElementsByTagName('tr')).forEach(row => {
+            const cells = row.getElementsByTagName('td');
+            const inseminatedCows = parseInt(cells[5].textContent.trim(), 10); // Columna de vacas inseminadas
+            const pregnantCows = parseInt(cells[6].textContent.trim(), 10);   // Columna de vacas preñadas
+
+            // Sumar a los contadores si son números válidos
+            if (!isNaN(inseminatedCows)) totalInseminatedCows += inseminatedCows;
+            if (!isNaN(pregnantCows)) totalPregnantCows += pregnantCows;
+        });
+
+        // Datos para el gráfico
+        const data = {
+            labels: ['Vacas Inseminadas', 'Vacas Preñadas'],
+            datasets: [{
+                label: 'Vacas Inseminadas vs Preñadas',
+                data: [totalInseminatedCows, totalPregnantCows],
+                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        // Crear el gráfico de tipo pie
+        new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                return `${label}: ${value} vacas`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const total = context.chart._metasets[0].total;
+                            return `${value} (${Math.round((value / total) * 100)}%)`;
+                        },
+                        color: '#fff'
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+
+
+
+

@@ -66,6 +66,8 @@ namespace GanaderiaLasDelicias.Controllers
         {
             if (ModelState.IsValid)
             {
+                milking.MilkingTime = new TimeSpan(12, 0, 0);
+
                 _context.Add(milking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

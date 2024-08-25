@@ -16,7 +16,7 @@ namespace GanaderiaLasDelicias.Models
         public int? SomaticCellCount { get; set; }
         public int? MilkerId { get; set; }
 
-        public virtual Herd Cow { get; set; } = null!;
+        public virtual Herd? Cow { get; set; } = null!;
         public virtual Employee? Milker { get; set; }
     }
 }
