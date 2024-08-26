@@ -200,6 +200,12 @@
                             <p>Calculo Cesantia</p>
                         </a>
                     </li>
+                    <li>
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <i class="far fa-circle nav-icon"></i>
+                            <button type="submit" class="active">Log Out</button>
+                        </form>
+                    </li>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>

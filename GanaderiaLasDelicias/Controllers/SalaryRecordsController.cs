@@ -6,9 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using GanaderiaLasDelicias.Models;
 using static GanaderiaLasDelicias.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
+
     public class SalaryRecordsController : Controller
     {
         private readonly SGGContext _context;

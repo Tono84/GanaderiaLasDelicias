@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GanaderiaLasDelicias.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
     public class BonusController : Controller
     {
         [HttpGet]

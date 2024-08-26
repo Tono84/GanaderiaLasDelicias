@@ -1,5 +1,6 @@
 ﻿using GanaderiaLasDelicias.Data;
 using GanaderiaLasDelicias.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
     public class BullController : Controller
     {
         private readonly SGGContext _context;

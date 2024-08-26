@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using GanaderiaLasDelicias.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
     public class InseminationController : Controller
     {
         private readonly SGGContext _context;

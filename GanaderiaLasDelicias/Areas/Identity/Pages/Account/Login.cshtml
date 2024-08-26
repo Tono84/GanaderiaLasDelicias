@@ -31,8 +31,8 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Ingrese sus datos</p>
                 <hr />
-@*         <form id="account" method="post"> *@
-                    <form asp-page="./Login" method="post">
+            <form id="account" method="post"> 
+                   @*  <form asp-page="./Login" method="post"> *@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
                     <label asp-for="Input.Email" class="form-label"></label>

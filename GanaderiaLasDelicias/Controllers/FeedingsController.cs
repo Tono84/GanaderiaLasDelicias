@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GanaderiaLasDelicias.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
     public class FeedingsController : Controller
     {
         private readonly SGGContext _context;

@@ -1,7 +1,5 @@
-using Amazon.EC2.Model;
 using GanaderiaLasDelicias.Data;
 using GanaderiaLasDelicias.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,16 +12,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDbContext<SGGContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddAuthorization(options => options.AddPolicy("TwoFactorEnabled", x => x.RequireClaim("TwoFactorEnabled", "false")));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Identity/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-    });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
