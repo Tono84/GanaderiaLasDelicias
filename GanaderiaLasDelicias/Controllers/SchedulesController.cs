@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GanaderiaLasDelicias.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GanaderiaLasDelicias.Controllers
 {
+    [Authorize]
+
     public class SchedulesController : Controller
     {
         private readonly SGGContext _context;
