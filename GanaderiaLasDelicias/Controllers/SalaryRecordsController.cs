@@ -70,6 +70,18 @@ namespace GanaderiaLasDelicias.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SalaryRecordId,EmployeeId,PaymentDate,Amount,PaymentType")] SalaryRecord salaryRecord)
         {
+            if (salaryRecord.Amount == null)
+            {
+                ModelState.AddModelError("Amount", "El monto es requerido.");
+            }
+            else if (salaryRecord.Amount <= 0)
+            {
+                ModelState.AddModelError("Amount", "El monto debe ser un número positivo.");
+            }
+            else if (salaryRecord.Amount > 9999999.99m)
+            {
+                ModelState.AddModelError("Amount", "El monto no puede ser mayor que 9,999.99.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(salaryRecord);

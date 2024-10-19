@@ -18,14 +18,14 @@ namespace GanaderiaLasDelicias.Models
 
     
         [StringLength(15)]
-        //[DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "El nombre solo debe contener letras.")]
         [Required(ErrorMessage ="El nombre es requerido")]
         [Display(Name="Nombre")]
         public string Name { get; set; } = null!;
 
 
         [StringLength(15)]
-        //[DataType(DataType.Text,ErrorMessage ="Solamente se admite texto")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "El apellido solo debe contener letras.")]
         [Required(ErrorMessage = "El apellido es requerido")]
         [Display(Name = "Apellido")]
         public string LastName { get; set; } = null!;
@@ -36,15 +36,17 @@ namespace GanaderiaLasDelicias.Models
         public string NatId { get; set; } = null!;
 
         [StringLength(10)]
-        //[DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "El puesto solo debe contener letras.")]
+        [DataType(DataType.Text)]
         [Required(ErrorMessage = "El puesto es requerido")]
         [Display(Name = "Puesto")]
         public string JobTitle { get; set; } = null!;
 
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "El salario debe ser un número decimal con hasta dos decimales.")]
         [Range(0, 9999999.99, ErrorMessage = "El salario debe estar entre 0 y 9,999,999.99")]
         [Required(ErrorMessage = "El Salario es requerido")]
         [Display(Name = "Salario")]
-        public decimal BaseSalary { get; set; }
+        public decimal? BaseSalary { get; set; }
 
         [Display(Name = "Horario")]
         public int ScheduleId { get; set; }
