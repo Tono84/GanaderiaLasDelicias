@@ -41,7 +41,7 @@ namespace GanaderiaLasDelicias.Models
         [Display(Name = "Puesto")]
         public string JobTitle { get; set; } = null!;
 
-        //[MaxLength(20, ErrorMessage = "No introduzca más de 10 valores")]
+        [Range(0, 9999999.99, ErrorMessage = "El salario debe estar entre 0 y 9,999,999.99")]
         [Required(ErrorMessage = "El Salario es requerido")]
         [Display(Name = "Salario")]
         public decimal BaseSalary { get; set; }
