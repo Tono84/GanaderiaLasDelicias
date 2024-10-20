@@ -138,11 +138,11 @@
         // Inicializar los datos del gráfico
         updateChartData();
 
-        // Exportar a XLS
-        document.getElementById('downloadXls').addEventListener('click', function () {
-            const wb = XLSX.utils.table_to_book(table, { sheet: "Feeding Data" });
-            XLSX.writeFile(wb, 'FeedingData.xlsx');
-        });
+        // // Exportar a XLS
+        // document.getElementById('downloadXls').addEventListener('click', function () {
+        //     const wb = XLSX.utils.table_to_book(table, { sheet: "Feeding Data" });
+        //     XLSX.writeFile(wb, 'FeedingData.xlsx');
+        // });
     });
 </script>
 
