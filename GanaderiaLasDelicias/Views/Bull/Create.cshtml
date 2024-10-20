@@ -1,8 +1,13 @@
 ﻿@model GanaderiaLasDelicias.Models.Bull
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
 <h1>Crear Nuevo Toro</h1>
 
 <form asp-action="Create">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -10,33 +15,41 @@
     </div>
     <div class="form-group">
         <label asp-for="Weight"></label>
-        <input asp-for="Weight" class="form-control" />
+        <input asp-for="Weight" class="form-control" type="number" step="0.01" min="0" max="999.99" />
         <span asp-validation-for="Weight" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="PurchaseDate"></label>
-        <input asp-for="PurchaseDate" class="form-control" />
+        <input asp-for="PurchaseDate" class="form-control" type="date"
+               max="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="PurchaseDate" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Age"></label>
-        <input asp-for="Age" class="form-control" />
+        <input asp-for="Age" class="form-control" type="number" step="1" min="0" max="999" value="0" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="SemenCost"></label>
-        <input asp-for="SemenCost" class="form-control" />
+        <input asp-for="SemenCost" class="form-control" type="number" step="0.01" min="0" max="9999.99" />
         <span asp-validation-for="SemenCost" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="InseminatedCows"></label>
-        <input asp-for="InseminatedCows" class="form-control" />
+        <input asp-for="InseminatedCows" class="form-control" type="number" step="1" min="0" max="999" value="0" />
         <span asp-validation-for="InseminatedCows" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="PregnantCows"></label>
-        <input asp-for="PregnantCows" class="form-control" />
+        <input asp-for="PregnantCows" class="form-control" type="number" step="1" min="0" max="999" value="0" />
         <span asp-validation-for="PregnantCows" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Crear</button>
 </form>
+
+<div>
+    <a asp-action="Index">Regresar al Listado</a>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
