@@ -63,6 +63,61 @@ namespace GanaderiaLasDelicias.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SalaryId,EmployeeId,GrossSalary,Deductions,NetSalary,VacationsUsed,CreatedDate")] Salary salary)
         {
+            // Validación de salario bruto (GrossSalary)
+            if (salary.GrossSalary == null)
+            {
+                ModelState.AddModelError("GrossSalary", "El salario bruto es requerido.");
+            }
+            else if (salary.GrossSalary <= 0)
+            {
+                ModelState.AddModelError("GrossSalary", "El salario bruto debe ser un número positivo.");
+            }
+            else if (salary.GrossSalary > 9999999.99m)
+            {
+                ModelState.AddModelError("GrossSalary", "El salario bruto no puede ser mayor que 9,999,999.99.");
+            }
+
+            // Validación de deducciones (Deductions)
+            if (salary.Deductions == null)
+            {
+                ModelState.AddModelError("Deductions", "Las deducciones son requeridas.");
+            }
+            else if (salary.Deductions < 0)
+            {
+                ModelState.AddModelError("Deductions", "Las deducciones no pueden ser un número negativo.");
+            }
+            else if (salary.Deductions > 9999999.99m)
+            {
+                ModelState.AddModelError("Deductions", "Las deducciones no pueden ser mayores que 9,999,999.99.");
+            }
+
+            // Validación de salario neto (NetSalary)
+            if (salary.NetSalary == null)
+            {
+                ModelState.AddModelError("NetSalary", "El salario neto es requerido.");
+            }
+            else if (salary.NetSalary <= 0)
+            {
+                ModelState.AddModelError("NetSalary", "El salario neto debe ser un número positivo.");
+            }
+            else if (salary.NetSalary > 9999999.99m)
+            {
+                ModelState.AddModelError("NetSalary", "El salario neto no puede ser mayor que 9,999,999.99.");
+            }
+
+            // Validación de vacaciones usadas (VacationsUsed)
+            if (salary.VacationsUsed == null)
+            {
+                ModelState.AddModelError("VacationsUsed", "El número de vacaciones usadas es requerido.");
+            }
+            else if (salary.VacationsUsed < 0)
+            {
+                ModelState.AddModelError("VacationsUsed", "Las vacaciones usadas no pueden ser negativas.");
+            }
+            else if (salary.VacationsUsed > 999)
+            {
+                ModelState.AddModelError("VacationsUsed", "Las vacaciones usadas no pueden ser mayores que 999 días.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(salary);
