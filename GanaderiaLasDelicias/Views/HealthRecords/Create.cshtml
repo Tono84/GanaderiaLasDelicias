@@ -4,10 +4,13 @@
     ViewData["Title"] = "Crear Registro de Salud";
     var healthStatusList = new List<string> { "Tratamiento", "Enfermo", "Saludable" };
 }
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <h2>Crear Registro de Salud</h2>
 
 <form asp-action="Create">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group">
@@ -41,37 +44,41 @@
 
     <div class="form-group">
         <label asp-for="Dose" class="control-label">Dosis</label>
-        <input asp-for="Dose" class="form-control" />
+        <input asp-for="Dose" class="form-control" type="number" step="1" min="0" max="999" value="0" />
         <span asp-validation-for="Dose" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Frequency" class="control-label">Frecuencia</label>
-        <input asp-for="Frequency" class="form-control" />
+        <input asp-for="Frequency" class="form-control" type="number" step="1" min="0" max="999" value="0" />
         <span asp-validation-for="Frequency" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="DiagnosisDate" class="control-label">Fecha de Diagnóstico</label>
-        <input asp-for="DiagnosisDate" class="form-control" />
+        <input asp-for="DiagnosisDate" class="form-control" type="date"
+               max="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="DiagnosisDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="StateChangeDate" class="control-label">Fecha de Cambio de Estado</label>
-        <input asp-for="StateChangeDate" class="form-control" />
+        <input asp-for="StateChangeDate" class="form-control" type="date"
+               max="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="StateChangeDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="CheckupDate" class="control-label">Fecha de Chequeo</label>
-        <input asp-for="CheckupDate" class="form-control" />
+        <input asp-for="CheckupDate" class="form-control" type="date"
+               max="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="CheckupDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="VaccinationDate" class="control-label">Fecha de Vacunación</label>
-        <input asp-for="VaccinationDate" class="form-control" />
+        <input asp-for="VaccinationDate" class="form-control" type="date"
+               max="@DateTime.Now.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="VaccinationDate" class="text-danger"></span>
     </div>
 
@@ -79,4 +86,9 @@
         <input type="submit" value="Crear" class="btn btn-primary" />
     </div>
 </form>
-
+<div>
+    <a asp-action="Index">Regresar al listado</a>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
