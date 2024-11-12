@@ -64,7 +64,7 @@ namespace GanaderiaLasDelicias.Controllers
         public async Task<IActionResult> Create([Bind("SalaryId,EmployeeId,GrossSalary,Deductions,NetSalary,VacationsUsed,CreatedDate")] Salary salary)
         {
             // Validación de salario bruto (GrossSalary)
-            if (salary.GrossSalary == null)
+            if (salary.GrossSalary == 0)
             {
                 ModelState.AddModelError("GrossSalary", "El salario bruto es requerido.");
             }
@@ -78,7 +78,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             // Validación de deducciones (Deductions)
-            if (salary.Deductions == null)
+            if (salary.Deductions == 0)
             {
                 ModelState.AddModelError("Deductions", "Las deducciones son requeridas.");
             }
@@ -92,7 +92,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             // Validación de salario neto (NetSalary)
-            if (salary.NetSalary == null)
+            if (salary.NetSalary == 0)
             {
                 ModelState.AddModelError("NetSalary", "El salario neto es requerido.");
             }
@@ -106,7 +106,7 @@ namespace GanaderiaLasDelicias.Controllers
             }
 
             // Validación de vacaciones usadas (VacationsUsed)
-            if (salary.VacationsUsed == null)
+            if (salary.VacationsUsed == 0)
             {
                 ModelState.AddModelError("VacationsUsed", "El número de vacaciones usadas es requerido.");
             }

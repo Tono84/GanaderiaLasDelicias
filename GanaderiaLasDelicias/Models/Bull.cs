@@ -33,7 +33,7 @@ namespace GanaderiaLasDelicias.Models
         public DateTime PurchaseDate { get; set; }
 
         [RegularExpression(@"^\d+(\.\d{1})?$", ErrorMessage = "La edad debe de ser un número entero.")]
-        [Range(0, 999, ErrorMessage = "El peso debe estar entre 0 y 999")]
+        [Range(0, 999, ErrorMessage = "La edad debe estar entre 0 y 999")]
         [Required(ErrorMessage = "La edad es requerida")]
         [Display(Name = "Edad(años)")]
         public int Age { get; set; }
